@@ -4,4 +4,4 @@
 
 More info later...</br>
 
-![alt text](SchemeDB.jpg)
+![alt text](src/main/resources/SchemeDB.jpg)
