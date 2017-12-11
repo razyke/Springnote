@@ -22,7 +22,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
-@Table(name = "NOTEBOOK")
+@Table(name = "notebook")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -35,7 +35,7 @@ public class Notebook {
   private Long id;
 
   @ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
-  @JoinColumn(name = "id_user", nullable = false)
+  @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
   @Column(unique = true)

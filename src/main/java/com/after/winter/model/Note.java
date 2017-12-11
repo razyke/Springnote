@@ -23,7 +23,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
-@Table(name = "NOTE")
+@Table(name = "note")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -36,7 +36,7 @@ public class Note {
   private Long id;
 
   @ManyToOne(fetch = FetchType.EAGER, targetEntity = Notebook.class)
-  @JoinColumn(name = "id_notebook")
+  @JoinColumn(name = "notebook_id")
   @OnDelete(action = OnDeleteAction.CASCADE)
   private Notebook notebook;
 
@@ -48,8 +48,8 @@ public class Note {
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinTable(name = "note_mark",
-      joinColumns = @JoinColumn(name = "id_note"),
-      inverseJoinColumns = @JoinColumn(name = "id_mark"))
+      joinColumns = @JoinColumn(name = "note_id"),
+      inverseJoinColumns = @JoinColumn(name = "mark_id"))
   private List<Mark> marks = new ArrayList<>();
 
 }
