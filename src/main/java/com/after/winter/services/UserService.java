@@ -2,8 +2,12 @@ package com.after.winter.services;
 
 import com.after.winter.model.User;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface UserService {
+
+  User getUserByEmail(String email);
 
   User getUser(Long id);
 
@@ -11,7 +15,7 @@ public interface UserService {
 
   boolean updateUser(User user);
 
-  boolean deleteUser(Long id);
+  boolean deleteUser(User user);
 
   List<User> getAllUsers();
 

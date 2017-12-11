@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MarkRepository extends JpaRepository<Mark, Long> {
 
-  //Mark getById(Long id);
-
   List<Mark> findAll();
+
+  Mark getByType(String type);
 
 }

@@ -11,6 +11,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -19,15 +21,19 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 
 @Configuration
-@PropertySource("classpath:db.properties")
+//@PropertySource("classpath:db.properties")
 @ComponentScan("com.after.winter")
 @EnableJpaRepositories("com.after.winter.repository")
 public class AppConfig {
 
-  @Autowired
-  Environment env;
 
-  @Bean
+/*
+//For property variable
+  @Autowired
+  Environment env;*/
+
+  //THIS IS datasource FROM property file
+ /* @Bean
   public DataSource dataSource() throws SQLException {
     DriverManagerDataSource dataSource = new DriverManagerDataSource();
     dataSource.setDriverClassName(env.getProperty("driverClassName"));
@@ -35,7 +41,14 @@ public class AppConfig {
     dataSource.setUsername("username");
     dataSource.setPassword("password");
     return dataSource;
+  }*/
+
+  @Bean
+  public DataSource dataSource() throws SQLException {
+    return new EmbeddedDatabaseBuilder().setName("test").
+        setType(EmbeddedDatabaseType.H2).build();
   }
+
 
   @Bean
   public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
