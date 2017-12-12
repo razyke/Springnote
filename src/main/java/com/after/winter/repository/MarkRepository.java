@@ -10,6 +10,6 @@ public interface MarkRepository extends JpaRepository<Mark, Long> {
 
   List<Mark> findAll();
 
-  Mark getByType(String type);
+  Mark getByTypeAndUserId(String type, Long userId);
 
 }

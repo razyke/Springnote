@@ -14,26 +14,19 @@ import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class NoteServiceImpl implements NoteService {
 
   private final NoteRepository noteRepository;
-  private final NotebookRepository notebookRepository;
-  private final MarkRepository markRepository;
-  private final UserRepository userRepository;
 
   @Autowired
-  public NoteServiceImpl(NoteRepository noteRepository,
-      MarkRepository markRepository,
-      NotebookRepository notebookRepository,
-      UserRepository userRepository) {
+  public NoteServiceImpl(NoteRepository noteRepository) {
     this.noteRepository = noteRepository;
-    this.notebookRepository = notebookRepository;
-    this.markRepository = markRepository;
-    this.userRepository = userRepository;
   }
 
+  @Override
   public Note getNote(Long id) {
     if (id != null) {
       return noteRepository.getOne(id);
@@ -43,76 +36,51 @@ public class NoteServiceImpl implements NoteService {
 
   @Override
   public Note getNoteByTitle(String title) {
-    if (title!= null && !title.isEmpty()) {
+    if (title != null && !title.isEmpty()) {
       return noteRepository.getByTitle(title);
     }
     return null;
   }
 
+  @Override
+  public Note getNoteByTitleAndNotebookId(String title, Long notebookId) {
+    if (title!= null && notebookId != null && !title.isEmpty()) {
+      return noteRepository.getByTitleAndAndNotebookId(title, notebookId);
+    }
+    return null;
+  }
+
+  @Override
+  @Transactional
   public boolean createNote(Note note) {
     if (note != null && note.getNotebook() != null) {
-      Notebook notebook = note.getNotebook();
-      if (notebook.getNotes() == null || notebook.getNotes().isEmpty()) {
-        notebook.setNotes(new ArrayList<>(Arrays.asList(note)));
-      } else {
-        notebook.getNotes().add(note);
-      }
-      noteRepository.save(note);
-      notebookRepository.save(notebook);
+      noteRepository.saveAndFlush(note);
       return true;
     }
     return false;
   }
 
+  @Override
+  @Transactional
   public boolean updateNote(Note note) {
     if (note != null && noteRepository.exists(note.getId())) {
-      Notebook notebook = note.getNotebook();
-      List<Note> notes = notebook.getNotes();
-      for (int i = 0; i < notes.size(); i++) {
-        if (note.getId().equals(notes.get(i).getId())) {
-          notes.set(i, note);
-        }
-      }
-      noteRepository.save(note);
-      notebookRepository.save(notebook);
+      noteRepository.saveAndFlush(note);
       return true;
     }
     return false;
   }
 
-  public boolean deleteNote(Note note) {
-
-    if (note != null && noteRepository.exists(note.getId())) {
-      List<Mark> marks = note.getMarks();
-
-      for (int i = 0; i < marks.size(); i++) {
-        for (int j = 0; j < marks.get(i).getNotes().size(); j++) {
-          if (marks.get(i).getNotes().get(j).getId().equals(note.getId())) {
-            marks.get(i).getNotes().remove(j);
-          }
-        }
-      }
-      Notebook notebook = note.getNotebook();
-      for (int i = 0; i < notebook.getNotes().size(); i++) {
-        if (notebook.getNotes().get(i).getId().equals( note.getId())) {
-          notebook.getNotes().remove(i);
-        }
-      }
-      User user = notebook.getUser();
-      for (int i = 0; i < user.getNotebooks().size(); i++) {
-        if (user.getNotebooks().get(i).getId().equals(notebook.getId())) {
-          user.getNotebooks().set(i, notebook);
-        }
-      }
-      userRepository.save(user);
-      notebookRepository.save(notebook);
-      markRepository.save(marks);
-      noteRepository.delete(note);
+  @Override
+  @Transactional
+  public boolean deleteNote(Long noteId) {
+    if (noteId != null && noteRepository.exists(noteId)) {
+      noteRepository.delete(noteId);
       return true;
     }
     return false;
   }
 
+  @Override
   public List<Note> getAllNotes() {
     return noteRepository.findAll();
   }
@@ -127,7 +95,8 @@ public class NoteServiceImpl implements NoteService {
 
   @Override
   public List<Note> getAllNotesByTag(Mark mark, User user) {
-    List<Notebook> notebooks = notebookRepository.findAllByUser(user);
+  /*  List<Notebook> notebooks = notebookRepository.findAllByUser(user);
+  //TODO: Implement normal
     List<Note> notes = new ArrayList<>();
     for (Notebook notebook : notebooks) {
       for (Note n : notebook.getNotes()) {
@@ -138,45 +107,16 @@ public class NoteServiceImpl implements NoteService {
         }
       }
     }
-    return notes;
+    return notes;*/
+  return null;
   }
 
   @Override
+  @Transactional
   public boolean addMarkToNote(Mark mark, Note note) {
     if (mark != null && note != null) {
-
-      //better user SET for marks...
-      if (note.getMarks() == null || note.getMarks().isEmpty()) {
-        note.setMarks(new ArrayList<>(Arrays.asList(mark)));
-      } else {
-        note.getMarks().add(mark);
-      }
-
-      if (mark.getNotes() == null || mark.getNotes().isEmpty()) {
-        mark.setNotes(new ArrayList<>(Arrays.asList(note)));
-      } else {
-        mark.getNotes().add(note);
-      }
-
-      Notebook notebook = note.getNotebook();
-      List<Note> notes = notebook.getNotes();
-      for (int i = 0; i < notes.size(); i++) {
-        if (note.getId().equals(notes.get(i).getId())) {
-          notes.set(i, note);
-        }
-      }
-
-      User user = notebook.getUser();
-      List<Notebook> notebooks = user.getNotebooks();
-      for (int i = 0; i < notebooks.size(); i++) {
-        if (notebook.getId().equals(notebooks.get(i).getId())) {
-          notebooks.set(i, notebook);
-        }
-      }
-      noteRepository.save(note);
-      markRepository.save(mark);
-      notebookRepository.save(notebook);
-      userRepository.save(user);
+      note.getMarks().add(mark);
+      noteRepository.saveAndFlush(note);
       return true;
     }
     return false;

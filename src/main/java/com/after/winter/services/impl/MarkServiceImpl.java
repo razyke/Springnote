@@ -12,26 +12,19 @@ import com.after.winter.services.MarkService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MarkServiceImpl implements MarkService {
 
-  private final UserRepository userRepository;
-  private final NotebookRepository notebookRepository;
-  private final NoteRepository noteRepository;
   private final MarkRepository markRepository;
 
   @Autowired
-  public MarkServiceImpl(UserRepository userRepository,
-      NotebookRepository notebookRepository,
-      NoteRepository noteRepository,
-      MarkRepository markRepository) {
-    this.userRepository = userRepository;
-    this.notebookRepository = notebookRepository;
-    this.noteRepository = noteRepository;
+  public MarkServiceImpl(MarkRepository markRepository) {
     this.markRepository = markRepository;
   }
 
+  @Override
   public Mark getMark(Long id) {
     if (markRepository.exists(id)) {
       return markRepository.getOne(id);
@@ -40,81 +33,49 @@ public class MarkServiceImpl implements MarkService {
   }
 
   @Override
-  public Mark getMarkByType(String type) {
-    if (type != null && !type.isEmpty()) {
-      return markRepository.getByType(type);
+  public Mark getMarkByTypeAndUserId(String type, Long userId) {
+    if (type != null && userId != null && !type.isEmpty()) {
+      return markRepository.getByTypeAndUserId(type, userId);
     }
     return null;
   }
 
   @Override
+  @Transactional
   public boolean createMark(Mark mark) {
-    if (mark != null) {
-      markRepository.save(mark);
+    if (mark != null && mark.getUser() != null) {
+      markRepository.saveAndFlush(mark);
       return true;
     }
     return false;
   }
 
   @Override
+  @Transactional
   public boolean updateMark(Mark mark) {
     if (mark != null && markRepository.exists(mark.getId())) {
-      markRepository.save(mark);
+      markRepository.saveAndFlush(mark);
       return true;
     }
     return false;
   }
 
   @Override
+  @Transactional
   public boolean deleteMarkFromNote(Note note, Mark mark) {
     if (note != null && mark != null) {
-
-      List<Note> notes = mark.getNotes();
-      List<Mark> marks = note.getMarks();
-      for (int i = 0; i < marks.size(); i++) {
-        if (marks.get(i).getId().equals(mark.getId())) {
-          marks.remove(i);
-        }
-      }
-      for (int i = 0; i < notes.size(); i++) {
-        if (notes.get(i).getId().equals(note.getId())) {
-          notes.remove(i);
-        }
-      }
-
-      Notebook notebook = note.getNotebook();
-      User user = notebook.getUser();
-      notebook.setNotes(notes);
-      for (int i = 0; i < user.getNotebooks().size(); i++) {
-        if (user.getNotebooks().get(i).getId().equals(note.getId())) {
-          user.getNotebooks().set(i, notebook);
-        }
-      }
-      userRepository.save(user);
-      notebookRepository.save(notebook);
-      markRepository.save(marks);
-      noteRepository.save(notes);
+      mark.getNotes().add(note);
+      markRepository.saveAndFlush(mark);
       return true;
     }
     return false;
   }
 
   @Override
-  public boolean deleteMark(Mark mark) {
-    if (markRepository.exists(mark.getId())) {
-      List<Note> notes = mark.getNotes();
-
-      for (int i = 0; i < notes.size(); i++) {
-        for (int j = 0; j < notes.get(i).getMarks().size(); j++) {
-          if (notes.get(i).getMarks().get(j).getId().equals(mark.getId())) {
-            notes.get(i).getMarks().remove(j);
-          }
-        }
-      }
-
-      //TODO: user nad notebook remove marks too...now go to sleep....
-      noteRepository.save(notes);
-      markRepository.delete(mark);
+  @Transactional
+  public boolean deleteMark(Long markId) {
+    if (markRepository.exists(markId)) {
+      markRepository.delete(markId);
       return true;
     }
     return false;

@@ -27,13 +27,12 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 public class AppConfig {
 
 
-/*
-//For property variable
+/*//For property variable
   @Autowired
-  Environment env;*/
+  Environment env;
 
   //THIS IS datasource FROM property file
- /* @Bean
+  @Bean
   public DataSource dataSource() throws SQLException {
     DriverManagerDataSource dataSource = new DriverManagerDataSource();
     dataSource.setDriverClassName(env.getProperty("driverClassName"));
@@ -51,16 +50,14 @@ public class AppConfig {
 
 
   @Bean
-  public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-    LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-    try {
-      em.setDataSource(dataSource());
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-    em.setPackagesToScan("com.after.winter");
-    em.setJpaVendorAdapter(jpaVendorAdapter());
-    return em;
+  public LocalContainerEntityManagerFactoryBean entityManagerFactory(
+      DataSource dataSource, JpaVendorAdapter jpaVendorAdapter
+  ) {
+    LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
+    bean.setDataSource(dataSource);
+    bean.setJpaVendorAdapter(jpaVendorAdapter);
+    bean.setPackagesToScan("com.after.winter");
+    return bean;
   }
 
   @Bean

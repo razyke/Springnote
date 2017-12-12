@@ -10,7 +10,7 @@ public interface MarkService {
 
   Mark getMark(Long id);
 
-  Mark getMarkByType(String type);
+  Mark getMarkByTypeAndUserId(String type, Long userId);
 
   boolean createMark(Mark mark);
 
@@ -18,7 +18,7 @@ public interface MarkService {
 
   boolean deleteMarkFromNote(Note note, Mark mark);
 
-  boolean deleteMark(Mark mark);
+  boolean deleteMark(Long markId);
 
   List<Mark> getAllMarks();
 

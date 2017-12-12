@@ -1,7 +1,6 @@
 package com.after.winter.services;
 
 import com.after.winter.model.Notebook;
-import com.after.winter.model.User;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -10,14 +9,14 @@ public interface NotebookService {
 
   Notebook getNotebook(Long id);
 
-  Notebook getNotebookByTitle(String title);
+  Notebook getNotebookByTitleAndUserId(String title, Long userId);
 
   boolean createNotebook(Notebook notebook);
 
   boolean updateNotebook(Notebook notebook);
 
-  boolean deleteNotebook(Notebook notebook);
+  boolean deleteNotebook(Long notebookId);
 
-  List<Notebook> getAllNotebooksByUser(User user);
+  List<Notebook> getAllNotebooksByUserId(Long userId);
 
 }

@@ -14,11 +14,13 @@ public interface NoteService {
 
   Note getNoteByTitle(String title);
 
+  Note getNoteByTitleAndNotebookId(String title, Long NotebookId);
+
   boolean createNote(Note note);
 
   boolean updateNote(Note note);
 
-  boolean deleteNote(Note note);
+  boolean deleteNote(Long noteId);
 
   List<Note> getAllNotes();
 

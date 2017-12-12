@@ -1,5 +1,6 @@
 package com.after.winter.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -19,31 +20,30 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "note")
+@Table
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ToString(exclude = {"notebook", "marks"})
-public class Note {
+public class Note implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @ManyToOne(fetch = FetchType.EAGER, targetEntity = Notebook.class)
-  @JoinColumn(name = "notebook_id")
-  @OnDelete(action = OnDeleteAction.CASCADE)
+  @ManyToOne(fetch = FetchType.LAZY, targetEntity = Notebook.class)
+  @JoinColumn(name = "notebook_id", nullable = false)
   private Notebook notebook;
 
-  @Column(unique = true)
+  @Column (nullable = false)
   private String title;
 
   @Column
+  @Size(max = 500)
   private String body;
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
