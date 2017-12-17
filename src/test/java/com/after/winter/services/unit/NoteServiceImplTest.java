@@ -316,5 +316,4 @@ public class NoteServiceImplTest {
         assertThat(note.getMarks()).isEmpty();
         verify(noteRepository).saveAndFlush(any(Note.class));
     }
-
 }
