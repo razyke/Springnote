@@ -1,4 +1,4 @@
-package com.after.winter.services;
+package com.after.winter.config;
 
 import com.after.winter.config.AppConfig;
 import java.sql.SQLException;
@@ -10,7 +10,7 @@ public class AppConfigForTest extends AppConfig {
 
   @Override
   public DataSource dataSource() throws SQLException {
-    return new EmbeddedDatabaseBuilder().setName("test").
+    return new EmbeddedDatabaseBuilder().setName("test2").
         setType(EmbeddedDatabaseType.H2).build();
   }
 }

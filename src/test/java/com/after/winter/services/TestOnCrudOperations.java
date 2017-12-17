@@ -3,12 +3,14 @@ package com.after.winter.services;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.after.winter.config.AppConfigForTest;
 import com.after.winter.model.Mark;
 import com.after.winter.model.Note;
 import com.after.winter.model.Notebook;
 import com.after.winter.model.User;
 import java.util.Collections;
 import java.util.List;
+
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -251,6 +253,9 @@ public class TestOnCrudOperations {
     assertEquals(Collections.emptyList(),
         userService.getUserByEmail("wormholeking@epam.com").getNotebooks().get(1)
         .getNotes().get(0).getMarks());
+
+    List<User> allUsers = userService.getAllUsers();
+    System.out.println(allUsers.size());
 
 
     userService.deleteUser(userService.getUserByEmail("wormholeking@epam.com").getId());
