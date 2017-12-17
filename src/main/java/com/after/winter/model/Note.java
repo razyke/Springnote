@@ -1,6 +1,5 @@
 package com.after.winter.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +14,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table
@@ -30,10 +29,13 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @Builder
 @ToString(exclude = {"notebook", "marks"})
+//InitalValue using 11, cos we use insert.sql and last id - 10.
+@SequenceGenerator(
+    name = "for-note", sequenceName = "note_with_insert",initialValue = 11, allocationSize = 1)
 public class Note implements Serializable {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "for-note")
   private Long id;
 
   @ManyToOne(fetch = FetchType.EAGER, targetEntity = Notebook.class)
@@ -44,7 +46,6 @@ public class Note implements Serializable {
   private String title;
 
   @Column
-  @Size(max = 500)
   private String body;
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

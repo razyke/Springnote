@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,10 +30,13 @@ import org.hibernate.annotations.OnDeleteAction;
 @AllArgsConstructor
 @Builder
 @ToString(exclude = {"user", "notes"})
+//InitalValue using 15, cos we use insert.sql and last id - 14.
+@SequenceGenerator(
+    name = "for-notebook", sequenceName = "notebook_with_insert",initialValue = 15, allocationSize = 1)
 public class Notebook {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "for-notebook")
   private Long id;
 
   @ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)

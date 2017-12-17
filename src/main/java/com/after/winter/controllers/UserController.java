@@ -4,7 +4,6 @@ import com.after.winter.model.User;
 import com.after.winter.services.UserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,14 +33,10 @@ public class UserController {
     return userService.getUser(id);
   }
 
-  @RequestMapping(value = "/user/email/{value}", method = RequestMethod.GET)
+  @RequestMapping(value = "/user/email/{value}/", method = RequestMethod.GET)
   @ResponseBody
   public User getUserByEmail(@PathVariable("value")String email) {
-    StringBuilder builder = new StringBuilder(email);
-    builder.deleteCharAt(email.length()-1);
-    builder.deleteCharAt(0);
-    String string = builder.toString();
-    return userService.getUserByEmail(string);
+    return userService.getUserByEmail(email);
   }
 
   @RequestMapping(value = "/user",method = RequestMethod.POST)
