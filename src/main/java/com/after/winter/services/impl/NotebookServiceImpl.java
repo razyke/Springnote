@@ -36,22 +36,21 @@ public class NotebookServiceImpl implements NotebookService {
   }
 
   @Override
-  public boolean createNotebook(Notebook notebook) {
+  public Notebook createNotebook(Notebook notebook) {
 
     if (notebook != null && notebook.getUser() != null) {
-      notebookRepository.saveAndFlush(notebook);
-      return true;
+      return notebookRepository.saveAndFlush(notebook);
     }
-    return false;
+    return null;
   }
 
   @Override
-  public boolean updateNotebook(Notebook notebook) {
+  public Notebook updateNotebook(Notebook notebook) {
     if (notebookRepository.exists(notebook.getId())) {
-      notebookRepository.saveAndFlush(notebook);
-      return true;
+      return notebookRepository.saveAndFlush(notebook);
+
     }
-    return false;
+    return null;
   }
 
   @Override

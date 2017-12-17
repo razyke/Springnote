@@ -37,21 +37,21 @@ public class MarkServiceImpl implements MarkService {
   }
 
   @Override
-  public boolean createMark(Mark mark) {
+  public Mark createMark(Mark mark) {
     if (mark != null) {
-      markRepository.saveAndFlush(mark);
-      return true;
+      return markRepository.saveAndFlush(mark);
+
     }
-    return false;
+    return null;
   }
 
   @Override
-  public boolean updateMark(Mark mark) {
+  public Mark updateMark(Mark mark) {
     if (mark != null && markRepository.exists(mark.getId())) {
-      markRepository.saveAndFlush(mark);
-      return true;
+      return markRepository.saveAndFlush(mark);
+
     }
-    return false;
+    return null;
   }
 
 
