@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,10 +24,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+//InitalValue using 8, cos we use insert.sql and last id - 7.
+@SequenceGenerator(
+    name = "for-user", sequenceName = "user_with_insert",initialValue = 8, allocationSize = 1)
 public class User {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "for-user")
   private Long id;
 
   @Column
