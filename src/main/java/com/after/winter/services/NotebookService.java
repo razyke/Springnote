@@ -9,6 +9,8 @@ public interface NotebookService {
 
   Notebook getNotebook(Long id);
 
+  Notebook getNotebookByIdAndUserId(Long notebookId, Long userId);
+
   Notebook getNotebookByTitleAndUserId(String title, Long userId);
 
   Notebook createNotebook(Notebook notebook);

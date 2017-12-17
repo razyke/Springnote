@@ -30,6 +30,14 @@ public class NotebookServiceImpl implements NotebookService {
   }
 
   @Override
+  public Notebook getNotebookByIdAndUserId(Long notebookId, Long userId) {
+    if (notebookId != null && userId !=null) {
+      notebookRepository.getByIdAndUserId(notebookId, userId);
+    }
+    return null;
+  }
+
+  @Override
   public Notebook getNotebookByTitleAndUserId(String title, Long userId) {
     if (title != null && userId != null && !title.isEmpty()) {
       return notebookRepository.getByTitleAndUserId(title, userId);

@@ -33,12 +33,6 @@ public class UserController {
     return userService.getUser(id);
   }
 
-  @RequestMapping(value = "/user/email/{value}/", method = RequestMethod.GET)
-  @ResponseBody
-  public User getUserByEmail(@PathVariable("value")String email) {
-    return userService.getUserByEmail(email);
-  }
-
   @RequestMapping(value = "/user",method = RequestMethod.POST)
   public void createUser(@RequestBody User user) {
     userService.createUser(user);
