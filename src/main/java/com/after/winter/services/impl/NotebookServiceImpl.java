@@ -3,6 +3,8 @@ package com.after.winter.services.impl;
 import com.after.winter.model.Notebook;
 import com.after.winter.repository.NotebookRepository;
 import com.after.winter.services.NotebookService;
+
+import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,7 +65,10 @@ public class NotebookServiceImpl implements NotebookService {
 
   @Override
   public List<Notebook> getAllNotebooksByUserId(Long userId) {
-    return notebookRepository.findAllByUserId(userId);
+    if (userId != null) {
+      return notebookRepository.findAllByUserId(userId);
+    }
+    return Collections.emptyList();
   }
 
 }

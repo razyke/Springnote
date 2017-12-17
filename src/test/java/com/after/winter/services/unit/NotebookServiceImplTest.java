@@ -1,30 +1,22 @@
 package com.after.winter.services.unit;
 
-import com.after.winter.model.Note;
 import com.after.winter.model.Notebook;
 import com.after.winter.model.User;
 import com.after.winter.repository.NotebookRepository;
 import com.after.winter.services.impl.NotebookServiceImpl;
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NotebookServiceImplTest {
@@ -64,7 +56,7 @@ public class NotebookServiceImplTest {
     }
 
     @Test
-    public void getNotebook() throws Exception {
+    public void getNotebook_WhenIdIsNotNull() throws Exception {
         when(notebookRepository.findOne(anyLong())).thenReturn(notebook);
         Notebook returnedNotebook = notebookService.getNotebook(NOTEBOOK_ID);
 
@@ -73,7 +65,15 @@ public class NotebookServiceImplTest {
     }
 
     @Test
-    public void getNotebookByTitleAndUserId() throws Exception {
+    public void getNotebook_WhenIdIsNull() throws Exception {
+        Notebook returnedNotebook = notebookService.getNotebook(null);
+
+        assertThat(returnedNotebook).isNull();
+        verifyZeroInteractions(notebookRepository);
+    }
+
+    @Test
+    public void getNotebookByTitleAndUserId_WhenBothAreNotNull() throws Exception {
         when(notebookRepository.getByTitleAndUserId(anyString(), anyLong())).thenReturn(notebook);
 
         Notebook returnedNotebook = notebookService.getNotebookByTitleAndUserId(NOTEBOOK_TITLE, USER_ID);
@@ -83,7 +83,31 @@ public class NotebookServiceImplTest {
     }
 
     @Test
-    public void createNotebook() throws Exception {
+    public void getNotebookByTitleAndUserId_WhenNotebooTitleIsNull() throws Exception {
+        Notebook returnedNotebook = notebookService.getNotebookByTitleAndUserId(null, USER_ID);
+
+        assertThat(returnedNotebook).isNull();
+        verifyZeroInteractions(notebookRepository);
+    }
+
+    @Test
+    public void getNotebookByTitleAndUserId_WhenUserIdIsNull() throws Exception {
+        Notebook returnedNotebook = notebookService.getNotebookByTitleAndUserId(NOTEBOOK_TITLE, null);
+
+        assertThat(returnedNotebook).isNull();
+        verifyZeroInteractions(notebookRepository);
+    }
+
+    @Test
+    public void getNotebookByTitleAndUserId_WhenBothAreNull() throws Exception {
+        Notebook returnedNotebook = notebookService.getNotebookByTitleAndUserId(null, null);
+
+        assertThat(returnedNotebook).isNull();
+        verifyZeroInteractions(notebookRepository);
+    }
+
+    @Test
+    public void createNotebook_WhenNotebookIsNotNull() throws Exception {
         when(notebookRepository.saveAndFlush(any(Notebook.class))).thenReturn(notebook);
 
         Notebook returnedNotebook = notebookService.createNotebook(notebook);
@@ -92,7 +116,14 @@ public class NotebookServiceImplTest {
     }
 
     @Test
-    public void updateNotebook() throws Exception {
+    public void createNotebook_WhenNotebookIsNull() throws Exception {
+        Notebook returnedNotebook = notebookService.createNotebook(null);
+        assertThat(returnedNotebook).isNull();
+        verifyZeroInteractions(notebookRepository);
+    }
+
+    @Test
+    public void updateNotebook_WhenNotebookExistsAndNotNull() throws Exception {
         when(notebookRepository.saveAndFlush(any(Notebook.class))).thenReturn(notebook);
 
         Notebook returnedNotebook = notebookService.updateNotebook(notebook);
@@ -101,21 +132,58 @@ public class NotebookServiceImplTest {
     }
 
     @Test
-    public void deleteNotebook() throws Exception {
+    public void updateNotebook_WhenNotebookDoesntExists() throws Exception {
+        when(notebookRepository.exists(anyLong())).thenReturn(false);
+
+        Notebook returnedNotebook = notebookService.updateNotebook(notebook);
+        assertThat(returnedNotebook).isNull();
+        verify(notebookRepository).exists(anyLong());
+    }
+
+    @Test
+    public void updateNotebook_WhenNotebookIsNull() throws Exception {
+        Notebook returnedNotebook = notebookService.updateNotebook(null);
+        assertThat(returnedNotebook).isNull();
+        verifyZeroInteractions(notebookRepository);
+    }
+
+    @Test
+    public void deleteNotebook_WhenIdIsNotNullAndNotebookExists() throws Exception {
         doNothing().when(notebookRepository).delete(anyLong());
 
         notebookService.deleteNotebook(NOTEBOOK_ID);
         verify(notebookRepository).delete(anyLong());
-
     }
 
     @Test
-    public void getAllNotebooksByUserId() throws Exception {
+    public void deleteNotebook_WhenIdIsNull() throws Exception {
+        notebookService.deleteNotebook(null);
+        verifyZeroInteractions(notebookRepository);
+    }
+
+    @Test
+    public void deleteNotebook_WhenNotebookDoesntExists() throws Exception {
+        when(notebookRepository.exists(anyLong())).thenReturn(false);
+
+        notebookService.deleteNotebook(NOTEBOOK_ID);
+        verify(notebookRepository).exists(anyLong());
+    }
+
+    @Test
+    public void getAllNotebooksByUserId_WhenUserIdIsNotNull() throws Exception {
         when(notebookRepository.findAllByUserId(anyLong())).thenReturn(notebooks);
 
         List<Notebook> notebookList = notebookService.getAllNotebooksByUserId(USER_ID);
         assertThat(notebookList).isNotEmpty().contains(notebook).isEqualTo(notebooks);
         verify(notebookRepository).findAllByUserId(anyLong());
+    }
+
+    @Test
+    public void getAllNotebooksByUserId_WhenUserIdIsNull() throws Exception {
+
+        List<Notebook> notebookList = notebookService.getAllNotebooksByUserId(null);
+        assertThat(notebookList).isEmpty();
+        verifyZeroInteractions(notebookRepository);
     }
 
 }

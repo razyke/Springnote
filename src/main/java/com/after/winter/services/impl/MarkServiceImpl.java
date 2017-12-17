@@ -22,7 +22,7 @@ public class MarkServiceImpl implements MarkService {
 
   @Override
   public Mark getMark(Long id) {
-    if (markRepository.exists(id)) {
+    if (id != null && markRepository.exists(id)) {
       return markRepository.getOne(id);
     }
     return null;
@@ -57,7 +57,7 @@ public class MarkServiceImpl implements MarkService {
 
   @Override
   public boolean deleteMark(Long markId) {
-    if (markRepository.exists(markId)) {
+    if (markId != null && markRepository.exists(markId)) {
       markRepository.delete(markId);
       return true;
     }
