@@ -12,8 +12,6 @@ public interface NoteService {
 
   Note getNote(Long id);
 
-  Note getNoteByTitle(String title);
-
   Note getNoteByTitleAndNotebookId(String title, Long NotebookId);
 
   boolean createNote(Note note);
@@ -26,8 +24,10 @@ public interface NoteService {
 
   List<Note> getAllNotesByNotebook(Notebook notebook);
 
-  List<Note> getAllNotesByTag(Mark mark, User user);
-
   boolean addMarkToNote(Mark mark, Note note);
+
+  boolean removeMarkFromNote(Mark mark, Note note);
+
+  boolean removeAllMarksFromNote(Note note);
 
 }

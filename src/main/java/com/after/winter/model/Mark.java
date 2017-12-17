@@ -1,5 +1,6 @@
 package com.after.winter.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,7 +25,7 @@ import lombok.ToString;
 @Builder
 @Entity
 @Table
-@ToString(exclude = "notes")
+@ToString(exclude = {"notes"})
 public class Mark implements Serializable {
 
   @Id
@@ -36,11 +35,7 @@ public class Mark implements Serializable {
   @Column
   private String type;
 
-
-  @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
-  @JoinColumn(name = "user_id", nullable = false)
-  private User user;
-
+  @JsonIgnore
   @ManyToMany(fetch = FetchType.EAGER, mappedBy = "marks", cascade = CascadeType.ALL)
   private List<Note> notes = new ArrayList<>();
 

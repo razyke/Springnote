@@ -1,5 +1,6 @@
 package com.after.winter.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,7 @@ public class Note implements Serializable {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @ManyToOne(fetch = FetchType.LAZY, targetEntity = Notebook.class)
+  @ManyToOne(fetch = FetchType.EAGER, targetEntity = Notebook.class)
   @JoinColumn(name = "notebook_id", nullable = false)
   private Notebook notebook;
 

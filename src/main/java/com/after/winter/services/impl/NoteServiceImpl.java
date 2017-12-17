@@ -3,20 +3,16 @@ package com.after.winter.services.impl;
 import com.after.winter.model.Mark;
 import com.after.winter.model.Note;
 import com.after.winter.model.Notebook;
-import com.after.winter.model.User;
-import com.after.winter.repository.MarkRepository;
 import com.after.winter.repository.NoteRepository;
-import com.after.winter.repository.NotebookRepository;
-import com.after.winter.repository.UserRepository;
 import com.after.winter.services.NoteService;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class NoteServiceImpl implements NoteService {
 
   private final NoteRepository noteRepository;
@@ -34,13 +30,6 @@ public class NoteServiceImpl implements NoteService {
     return null;
   }
 
-  @Override
-  public Note getNoteByTitle(String title) {
-    if (title != null && !title.isEmpty()) {
-      return noteRepository.getByTitle(title);
-    }
-    return null;
-  }
 
   @Override
   public Note getNoteByTitleAndNotebookId(String title, Long notebookId) {
@@ -51,7 +40,6 @@ public class NoteServiceImpl implements NoteService {
   }
 
   @Override
-  @Transactional
   public boolean createNote(Note note) {
     if (note != null && note.getNotebook() != null) {
       noteRepository.saveAndFlush(note);
@@ -61,7 +49,6 @@ public class NoteServiceImpl implements NoteService {
   }
 
   @Override
-  @Transactional
   public boolean updateNote(Note note) {
     if (note != null && noteRepository.exists(note.getId())) {
       noteRepository.saveAndFlush(note);
@@ -71,7 +58,6 @@ public class NoteServiceImpl implements NoteService {
   }
 
   @Override
-  @Transactional
   public boolean deleteNote(Long noteId) {
     if (noteId != null && noteRepository.exists(noteId)) {
       noteRepository.delete(noteId);
@@ -93,29 +79,31 @@ public class NoteServiceImpl implements NoteService {
     return null;
   }
 
+
   @Override
-  public List<Note> getAllNotesByTag(Mark mark, User user) {
-  /*  List<Notebook> notebooks = notebookRepository.findAllByUser(user);
-  //TODO: Implement normal
-    List<Note> notes = new ArrayList<>();
-    for (Notebook notebook : notebooks) {
-      for (Note n : notebook.getNotes()) {
-        for (Mark m : n.getMarks()) {
-          if (m.getType().equals(mark.getType())) {
-            notes.add(n);
-          }
-        }
-      }
+  public boolean addMarkToNote(Mark mark, Note note) {
+    if (mark != null && note != null && note.getNotebook() != null) {
+      note.getMarks().add(mark);
+      noteRepository.saveAndFlush(note);
+      return true;
     }
-    return notes;*/
-  return null;
+    return false;
   }
 
   @Override
-  @Transactional
-  public boolean addMarkToNote(Mark mark, Note note) {
-    if (mark != null && note != null) {
-      note.getMarks().add(mark);
+  public boolean removeMarkFromNote(Mark mark, Note note) {
+    if (mark != null && note != null && note.getNotebook() != null) {
+      note.getMarks().remove(mark);
+      noteRepository.saveAndFlush(note);
+      return true;
+    }
+    return false;
+  }
+
+  @Override
+  public boolean removeAllMarksFromNote(Note note) {
+    if (note != null && note.getNotebook() != null) {
+      note.setMarks(new ArrayList<Mark>());
       noteRepository.saveAndFlush(note);
       return true;
     }

@@ -10,16 +10,12 @@ public interface MarkService {
 
   Mark getMark(Long id);
 
-  Mark getMarkByTypeAndUserId(String type, Long userId);
+  Mark getMarkByType(String type);
 
   boolean createMark(Mark mark);
 
   boolean updateMark(Mark mark);
 
-  boolean deleteMarkFromNote(Note note, Mark mark);
-
   boolean deleteMark(Long markId);
-
-  List<Mark> getAllMarks();
 
 }

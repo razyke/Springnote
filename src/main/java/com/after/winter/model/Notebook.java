@@ -1,5 +1,6 @@
 package com.after.winter.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -34,7 +35,7 @@ public class Notebook {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
+  @ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
@@ -44,6 +45,7 @@ public class Notebook {
   @Column
   private String description;
 
+  @JsonIgnore
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "notebook", cascade = CascadeType.ALL,
   orphanRemoval = true)
   @OnDelete(action = OnDeleteAction.CASCADE)

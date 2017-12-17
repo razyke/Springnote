@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.after.winter</groupId>
-  <artifactId>Springnote</artifactId>
+  <artifactId>springnote</artifactId>
   <version>0.7-SNAPSHOT</version>
   <build>
     <plugins>
@@ -19,43 +19,68 @@
       </plugin>
     </plugins>
   </build>
+  <packaging>war</packaging>
+
+  <properties>
+    <spring.version>4.2.3.RELEASE</spring.version>
+  </properties>
 
   <dependencies>
+
     <!-- Spring -->
+
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
-      <version>4.2.6.RELEASE</version>
-      <exclusions>
-        <exclusion>
-          <groupId>commons-logging</groupId>
-          <artifactId>commons-logging</artifactId>
-        </exclusion>
-      </exclusions>
+      <version>${spring.version}</version>
     </dependency>
-
-    <!-- Database -->
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
-      <version>4.2.6.RELEASE</version>
+      <version>${spring.version}</version>
     </dependency>
+
     <dependency>
       <groupId>org.springframework.data</groupId>
       <artifactId>spring-data-jpa</artifactId>
       <version>1.10.1.RELEASE</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>${spring.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <!-- Database -->
+
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-entitymanager</artifactId>
       <version>5.1.0.Final</version>
     </dependency>
+
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
       <version>1.4.192</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>5.1.0.Final</version>
+    </dependency>
+
+    <!-- Stuff -->
 
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -64,7 +89,6 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- Loggging -->
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
@@ -72,32 +96,32 @@
     </dependency>
 
     <!-- Testing -->
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-test</artifactId>
-      <version>4.2.6.RELEASE</version>
-      <scope>test</scope>
-    </dependency>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-web</artifactId>
-      <version>4.3.12.RELEASE</version>
-    </dependency>
+
     <dependency>
       <groupId>javax.validation</groupId>
       <artifactId>validation-api</artifactId>
       <version>1.1.0.Final</version>
     </dependency>
+
+    <!-- Servlet and Jackson -->
+
     <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-validator</artifactId>
-      <version>5.3.5.Final</version>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.0.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.5.0</version>
     </dependency>
 
   </dependencies>

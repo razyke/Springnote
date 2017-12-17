@@ -1,5 +1,6 @@
 package com.after.winter.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -29,17 +30,19 @@ public class User {
   private Long id;
 
   @Column
-  private String firstName;
+  private String firstname;
 
   @Column
-  private String lastName;
+  private String lastname;
 
   @Column (unique = true)
   private String email;
 
+  @JsonIgnore
   @Column
   private String password;
 
+  @JsonIgnore
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL,
   orphanRemoval = true)
   private List<Notebook> notebooks = new ArrayList<>();

@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(readOnly = true)
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
   private final UserRepository userRepository;
@@ -36,7 +36,6 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  @Transactional
   public boolean createUser(User user) {
     if (user != null) {
       userRepository.saveAndFlush(user);
@@ -46,7 +45,6 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  @Transactional
   public boolean updateUser(User user) {
     if (user != null && userRepository.exists(user.getId())) {
       userRepository.saveAndFlush(user);
@@ -56,7 +54,6 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  @Transactional
   public boolean deleteUser(Long userId) {
     if (userId != null && userRepository.exists(userId)) {
       userRepository.delete(userId);
@@ -70,3 +67,4 @@ public class UserServiceImpl implements UserService {
     return userRepository.findAll();
   }
 }
+
