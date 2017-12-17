@@ -39,6 +39,7 @@ public class Notebook {
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "for-notebook")
   private Long id;
 
+  @JsonIgnore
   @ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
