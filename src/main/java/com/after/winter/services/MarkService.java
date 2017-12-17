@@ -12,9 +12,9 @@ public interface MarkService {
 
   Mark getMarkByType(String type);
 
-  boolean createMark(Mark mark);
+  Mark createMark(Mark mark);
 
-  boolean updateMark(Mark mark);
+  Mark updateMark(Mark mark);
 
   boolean deleteMark(Long markId);
 

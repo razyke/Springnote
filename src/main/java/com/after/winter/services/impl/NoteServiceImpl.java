@@ -4,6 +4,7 @@ import com.after.winter.model.Mark;
 import com.after.winter.model.Note;
 import com.after.winter.model.Notebook;
 import com.after.winter.repository.NoteRepository;
+import com.after.winter.repository.NotebookRepository;
 import com.after.winter.services.NoteService;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class NoteServiceImpl implements NoteService {
 
   @Override
   public Note getNote(Long id) {
-    if (id != null) {
+    if (id != null && noteRepository.exists(id)) {
       return noteRepository.getOne(id);
     }
     return null;
@@ -40,21 +41,21 @@ public class NoteServiceImpl implements NoteService {
   }
 
   @Override
-  public boolean createNote(Note note) {
+  public Note createNote(Note note) {
     if (note != null && note.getNotebook() != null) {
-      noteRepository.saveAndFlush(note);
-      return true;
+      return noteRepository.saveAndFlush(note);
+
     }
-    return false;
+    return null;
   }
 
   @Override
-  public boolean updateNote(Note note) {
+  public Note updateNote(Note note) {
     if (note != null && noteRepository.exists(note.getId())) {
-      noteRepository.saveAndFlush(note);
-      return true;
+      return noteRepository.saveAndFlush(note);
+
     }
-    return false;
+    return null;
   }
 
   @Override

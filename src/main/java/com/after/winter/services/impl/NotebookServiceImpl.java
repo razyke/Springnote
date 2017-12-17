@@ -21,7 +21,7 @@ public class NotebookServiceImpl implements NotebookService {
 
   @Override
   public Notebook getNotebook(Long id) {
-    if (id != null) {
+    if (id != null && notebookRepository.exists(id)) {
       return notebookRepository.findOne(id);
     }
     return null;
@@ -36,22 +36,20 @@ public class NotebookServiceImpl implements NotebookService {
   }
 
   @Override
-  public boolean createNotebook(Notebook notebook) {
+  public Notebook createNotebook(Notebook notebook) {
 
     if (notebook != null && notebook.getUser() != null) {
-      notebookRepository.saveAndFlush(notebook);
-      return true;
+      return notebookRepository.saveAndFlush(notebook);
     }
-    return false;
+    return null;
   }
 
   @Override
-  public boolean updateNotebook(Notebook notebook) {
-    if (notebookRepository.exists(notebook.getId())) {
-      notebookRepository.saveAndFlush(notebook);
-      return true;
+  public Notebook updateNotebook(Notebook notebook) {
+    if (notebook != null && notebookRepository.exists(notebook.getId())) {
+      return notebookRepository.saveAndFlush(notebook);
     }
-    return false;
+    return null;
   }
 
   @Override
