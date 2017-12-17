@@ -1,5 +1,6 @@
 ###Target files###
 /target
+/out
 
 ###IDEAD files###
 /.idea
