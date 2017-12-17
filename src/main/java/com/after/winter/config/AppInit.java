@@ -1,4 +1,4 @@
-package com.after.winter;
+package com.after.winter.config;
 
 import com.after.winter.config.WebConfig;
 import javax.servlet.ServletContext;
