@@ -14,9 +14,9 @@ public interface NoteService {
 
   Note getNoteByTitleAndNotebookId(String title, Long NotebookId);
 
-  boolean createNote(Note note);
+  Note createNote(Note note);
 
-  boolean updateNote(Note note);
+  Note updateNote(Note note);
 
   boolean deleteNote(Long noteId);
 

@@ -13,9 +13,9 @@ public interface NotebookService {
 
   Notebook getNotebookByTitleAndUserId(String title, Long userId);
 
-  boolean createNotebook(Notebook notebook);
+  Notebook createNotebook(Notebook notebook);
 
-  boolean updateNotebook(Notebook notebook);
+  Notebook updateNotebook(Notebook notebook);
 
   boolean deleteNotebook(Long notebookId);
 

@@ -36,21 +36,19 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public boolean createUser(User user) {
+  public User createUser(User user) {
     if (user != null) {
-      userRepository.saveAndFlush(user);
-      return true;
+      return userRepository.saveAndFlush(user);
     }
-    return false;
+    return null;
   }
 
   @Override
-  public boolean updateUser(User user) {
+  public User updateUser(User user) {
     if (user != null && userRepository.exists(user.getId())) {
-      userRepository.saveAndFlush(user);
-      return true;
+       return userRepository.saveAndFlush(user);
     }
-    return false;
+    return null;
   }
 
   @Override

@@ -22,7 +22,7 @@ public class MarkServiceImpl implements MarkService {
 
   @Override
   public Mark getMark(Long id) {
-    if (markRepository.exists(id)) {
+    if (id != null && markRepository.exists(id)) {
       return markRepository.getOne(id);
     }
     return null;
@@ -37,27 +37,27 @@ public class MarkServiceImpl implements MarkService {
   }
 
   @Override
-  public boolean createMark(Mark mark) {
+  public Mark createMark(Mark mark) {
     if (mark != null) {
-      markRepository.saveAndFlush(mark);
-      return true;
+      return markRepository.saveAndFlush(mark);
+
     }
-    return false;
+    return null;
   }
 
   @Override
-  public boolean updateMark(Mark mark) {
+  public Mark updateMark(Mark mark) {
     if (mark != null && markRepository.exists(mark.getId())) {
-      markRepository.saveAndFlush(mark);
-      return true;
+      return markRepository.saveAndFlush(mark);
+
     }
-    return false;
+    return null;
   }
 
 
   @Override
   public boolean deleteMark(Long markId) {
-    if (markRepository.exists(markId)) {
+    if (markId != null && markRepository.exists(markId)) {
       markRepository.delete(markId);
       return true;
     }
