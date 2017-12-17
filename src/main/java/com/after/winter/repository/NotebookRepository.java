@@ -12,5 +12,6 @@ public interface NotebookRepository extends JpaRepository<Notebook, Long> {
 
   Notebook getByTitleAndUserId(String title, Long userId);
 
-  Notebook getByIdAndUserId(Long noteId, Long userId);
+  Notebook getByIdAndUserId(Long id, Long userId);
+
 }

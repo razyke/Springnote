@@ -34,12 +34,29 @@ public class UserController {
   }
 
   @RequestMapping(value = "/user",method = RequestMethod.POST)
-  public void createUser(@RequestBody User user) {
-    userService.createUser(user);
+  public String createUser(@RequestBody User user) {
+    User createdUser = userService.createUser(user);
+    if (createdUser != null) {
+      return "User has been created with ID - " + createdUser.getId();
+    }
+    return "Failed to create user";
   }
 
   @RequestMapping(value = "/user",method = RequestMethod.PUT)
-  public void updateUser(@RequestBody User user) {
-    userService.updateUser(user);
+  public String updateUser(@RequestBody User user) {
+    User updatedUser = userService.updateUser(user);
+    if (updatedUser != null) {
+      return "User has been success updated";
+    }
+    return "Failed to update user";
+  }
+
+  @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
+  public String deleteUser(@PathVariable("id")Long id) {
+    if (userService.deleteUser(id)) {
+      return "Deleted success";
+    } else {
+      return "Failed to delete user";
+    }
   }
 }

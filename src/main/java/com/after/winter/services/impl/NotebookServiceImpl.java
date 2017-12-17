@@ -32,7 +32,7 @@ public class NotebookServiceImpl implements NotebookService {
   @Override
   public Notebook getNotebookByIdAndUserId(Long notebookId, Long userId) {
     if (notebookId != null && userId !=null) {
-      notebookRepository.getByIdAndUserId(notebookId, userId);
+      return notebookRepository.getByIdAndUserId(notebookId, userId);
     }
     return null;
   }
@@ -61,6 +61,7 @@ public class NotebookServiceImpl implements NotebookService {
     }
     return null;
   }
+
 
   @Override
   public boolean deleteNotebook(Long notebookId) {

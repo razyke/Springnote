@@ -1,11 +1,13 @@
 package com.after.winter.controllers;
 
 import com.after.winter.model.Notebook;
+import com.after.winter.model.User;
 import com.after.winter.services.NotebookService;
 import com.after.winter.services.UserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,9 +43,28 @@ public class NotebookController {
 
   @RequestMapping(value = (USER_BY_ID + "/notebook"), method = RequestMethod.POST)
   @ResponseBody
-  public void createNotebookForUser(@PathVariable("id")Long userId) {
-
+  public String createNotebookForUser(@PathVariable("id")Long userId, @RequestBody Notebook notebook) {
+    notebook.setUser(userService.getUser(userId));
+    Notebook createdNotebook = notebookService.createNotebook(notebook);
+    if (createdNotebook != null) {
+      return "Notebook has been created with ID - " + createdNotebook.getId();
+    } else {
+      return "Failed to create";
+    }
   }
 
+  @RequestMapping(value = (USER_BY_ID + "/notebook"), method = RequestMethod.PUT)
+  @ResponseBody
+  public String updateNotebookForUser(@PathVariable("id")Long userId, @RequestBody Notebook notebook) {
+    Notebook check = notebookService
+        .getNotebookByIdAndUserId(notebook.getId(), userId);
+    if (check != null) {
+      notebook.setUser(userService.getUser(userId));
+      notebookService.updateNotebook(notebook);
+      return "Update success";
+    } else {
+      return "Update failed";
+    }
+  }
 
 }
