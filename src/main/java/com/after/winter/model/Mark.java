@@ -40,7 +40,7 @@ public class Mark implements Serializable {
   private String type;
 
   @JsonIgnore
-  @ManyToMany(fetch = FetchType.EAGER, mappedBy = "marks", cascade = CascadeType.ALL)
+  @ManyToMany(fetch = FetchType.EAGER, mappedBy = "marks")
   private List<Note> notes = new ArrayList<>();
 
 }

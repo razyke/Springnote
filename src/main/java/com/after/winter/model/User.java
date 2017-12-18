@@ -1,6 +1,7 @@
 package com.after.winter.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -27,7 +28,7 @@ import lombok.NoArgsConstructor;
 //InitalValue using 8, cos we use insert.sql and last id - 7.
 @SequenceGenerator(
     name = "for-user", sequenceName = "user_with_insert",initialValue = 8, allocationSize = 1)
-public class User {
+public class User implements Serializable{
 
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "for-user")

@@ -1,6 +1,7 @@
 package com.after.winter.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -33,14 +34,14 @@ import org.hibernate.annotations.OnDeleteAction;
 //InitalValue using 15, cos we use insert.sql and last id - 14.
 @SequenceGenerator(
     name = "for-notebook", sequenceName = "notebook_with_insert",initialValue = 15, allocationSize = 1)
-public class Notebook {
+public class Notebook implements Serializable{
 
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "for-notebook")
   private Long id;
 
   @JsonIgnore
-  @ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
+  @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
 

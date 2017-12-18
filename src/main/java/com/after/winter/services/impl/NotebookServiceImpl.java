@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
 public class NotebookServiceImpl implements NotebookService {
 
   private final NotebookRepository notebookRepository;
@@ -46,6 +45,7 @@ public class NotebookServiceImpl implements NotebookService {
   }
 
   @Override
+  @Transactional
   public Notebook createNotebook(Notebook notebook) {
 
     if (notebook != null && notebook.getUser() != null) {
@@ -55,6 +55,7 @@ public class NotebookServiceImpl implements NotebookService {
   }
 
   @Override
+  @Transactional
   public Notebook updateNotebook(Notebook notebook) {
     if (notebook != null && notebookRepository.exists(notebook.getId())) {
       return notebookRepository.saveAndFlush(notebook);

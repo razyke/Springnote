@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
 public class NoteServiceImpl implements NoteService {
 
   private final NoteRepository noteRepository;
@@ -41,6 +40,7 @@ public class NoteServiceImpl implements NoteService {
   }
 
   @Override
+  @Transactional
   public Note createNote(Note note) {
     if (note != null && note.getNotebook() != null) {
       return noteRepository.saveAndFlush(note);
@@ -50,6 +50,7 @@ public class NoteServiceImpl implements NoteService {
   }
 
   @Override
+  @Transactional
   public Note updateNote(Note note) {
     if (note != null && noteRepository.exists(note.getId())) {
       return noteRepository.saveAndFlush(note);
@@ -59,6 +60,7 @@ public class NoteServiceImpl implements NoteService {
   }
 
   @Override
+  @Transactional
   public boolean deleteNote(Long noteId) {
     if (noteId != null && noteRepository.exists(noteId)) {
       noteRepository.delete(noteId);
@@ -82,6 +84,7 @@ public class NoteServiceImpl implements NoteService {
 
 
   @Override
+  @Transactional
   public boolean addMarkToNote(Mark mark, Note note) {
     if (mark != null && note != null && note.getNotebook() != null) {
       note.getMarks().add(mark);
@@ -92,6 +95,7 @@ public class NoteServiceImpl implements NoteService {
   }
 
   @Override
+  @Transactional
   public boolean removeMarkFromNote(Mark mark, Note note) {
     if (mark != null && note != null && note.getNotebook() != null) {
       note.getMarks().remove(mark);
@@ -102,6 +106,7 @@ public class NoteServiceImpl implements NoteService {
   }
 
   @Override
+  @Transactional
   public boolean removeAllMarksFromNote(Note note) {
     if (note != null && note.getNotebook() != null) {
       note.setMarks(new ArrayList<Mark>());

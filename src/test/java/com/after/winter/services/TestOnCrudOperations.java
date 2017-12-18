@@ -252,7 +252,6 @@ public class TestOnCrudOperations {
         userService.getUserByEmail("wormholeking@epam.com").getNotebooks().get(1)
         .getNotes().get(0).getMarks());
 
-
     userService.deleteUser(userService.getUserByEmail("wormholeking@epam.com").getId());
     if (userService.getUserByEmail("wormholeking@epam.com") == null) {
       assertTrue(true);

@@ -1,7 +1,6 @@
 package com.after.winter.controllers;
 
 import com.after.winter.model.Notebook;
-import com.after.winter.model.User;
 import com.after.winter.services.NotebookService;
 import com.after.winter.services.UserService;
 import java.util.List;
@@ -30,20 +29,21 @@ public class NotebookController {
 
   @RequestMapping(value = (USER_BY_ID + "/notebooks"), method = RequestMethod.GET)
   @ResponseBody
-  public List<Notebook> getAllNotebooksByUserId(@PathVariable("id")Long userId) {
+  public List<Notebook> getAllNotebooksByUserId(@PathVariable("id") Long userId) {
     return notebookService.getAllNotebooksByUserId(userId);
   }
 
   @RequestMapping(value = (USER_BY_ID + "/notebook/{notebook_id}"), method = RequestMethod.GET)
   @ResponseBody
-  public Notebook getNotebookByUserIdAndNotebookId(@PathVariable("id")Long userId,
-                                                   @PathVariable("notebook_id")Long id) {
+  public Notebook getNotebookByUserIdAndNotebookId(@PathVariable("id") Long userId,
+      @PathVariable("notebook_id") Long id) {
     return notebookService.getNotebookByIdAndUserId(id, userId);
   }
 
   @RequestMapping(value = (USER_BY_ID + "/notebook"), method = RequestMethod.POST)
   @ResponseBody
-  public String createNotebookForUser(@PathVariable("id")Long userId, @RequestBody Notebook notebook) {
+  public String createNotebookForUser(@PathVariable("id") Long userId,
+      @RequestBody Notebook notebook) {
     notebook.setUser(userService.getUser(userId));
     Notebook createdNotebook = notebookService.createNotebook(notebook);
     if (createdNotebook != null) {
@@ -55,7 +55,8 @@ public class NotebookController {
 
   @RequestMapping(value = (USER_BY_ID + "/notebook"), method = RequestMethod.PUT)
   @ResponseBody
-  public String updateNotebookForUser(@PathVariable("id")Long userId, @RequestBody Notebook notebook) {
+  public String updateNotebookForUser(@PathVariable("id") Long userId,
+      @RequestBody Notebook notebook) {
     Notebook check = notebookService
         .getNotebookByIdAndUserId(notebook.getId(), userId);
     if (check != null) {
@@ -67,4 +68,17 @@ public class NotebookController {
     }
   }
 
+  @RequestMapping(value = (USER_BY_ID + "/notebook/{notebook_id}"), method = RequestMethod.DELETE)
+  @ResponseBody
+  public String deleteNotebook(@PathVariable("id") Long userId,
+      @PathVariable("notebook_id") Long notebookId) {
+    Notebook check = notebookService
+        .getNotebookByIdAndUserId(notebookId, userId);
+    if (check != null) {
+      if (notebookService.deleteNotebook(notebookId)) {
+        return "Notebook has been deleted";
+      }
+    }
+    return "Notebook delete failed";
+  }
 }

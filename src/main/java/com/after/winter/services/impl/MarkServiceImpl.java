@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
 public class MarkServiceImpl implements MarkService {
 
   private final MarkRepository markRepository;
@@ -37,6 +36,7 @@ public class MarkServiceImpl implements MarkService {
   }
 
   @Override
+  @Transactional
   public Mark createMark(Mark mark) {
     if (mark != null) {
       return markRepository.saveAndFlush(mark);
@@ -46,6 +46,7 @@ public class MarkServiceImpl implements MarkService {
   }
 
   @Override
+  @Transactional
   public Mark updateMark(Mark mark) {
     if (mark != null && markRepository.exists(mark.getId())) {
       return markRepository.saveAndFlush(mark);
@@ -56,6 +57,7 @@ public class MarkServiceImpl implements MarkService {
 
 
   @Override
+  @Transactional
   public boolean deleteMark(Long markId) {
     if (markId != null && markRepository.exists(markId)) {
       markRepository.delete(markId);

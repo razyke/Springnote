@@ -1,9 +1,9 @@
 package com.after.winter.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -38,7 +38,8 @@ public class Note implements Serializable {
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "for-note")
   private Long id;
 
-  @ManyToOne(fetch = FetchType.EAGER, targetEntity = Notebook.class)
+  @JsonIgnore
+  @ManyToOne(fetch = FetchType.LAZY, targetEntity = Notebook.class)
   @JoinColumn(name = "notebook_id", nullable = false)
   private Notebook notebook;
 
@@ -48,7 +49,8 @@ public class Note implements Serializable {
   @Column
   private String body;
 
-  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @JsonIgnore
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "note_mark",
       joinColumns = @JoinColumn(name = "note_id"),
       inverseJoinColumns = @JoinColumn(name = "mark_id"))
