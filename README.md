@@ -8,5 +8,4 @@ Spring application</br>
 </br>
 </br>
 </br>
-##Url patterns
 ![alt text](src/main/resources/urls.jpg)
