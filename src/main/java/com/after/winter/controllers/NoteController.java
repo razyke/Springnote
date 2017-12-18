@@ -42,7 +42,7 @@ public class NoteController {
       Long notebookId, @PathVariable("note_id")Long noteId) {
     Notebook notebook = notebookService.getNotebookByIdAndUserId(notebookId, userId);
     if (notebook != null) {
-      Note note = noteService.getNote(noteId);
+      Note note = noteService.getNoteByIdAndNotebookId(noteId, notebookId);
       if (notebook.getNotes().contains(note)) {
         return note;
       }
@@ -82,7 +82,7 @@ public class NoteController {
       Long notebookId, @PathVariable("note_id")Long noteId) {
     Notebook notebook = notebookService.getNotebookByIdAndUserId(notebookId, userId);
     if (notebook != null) {
-      Note note = noteService.getNote(noteId);
+      Note note = noteService.getNoteByIdAndNotebookId(noteId, notebookId);
       if (notebook.getNotes().contains(note)) {
         noteService.deleteNote(noteId);
       }

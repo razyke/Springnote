@@ -42,14 +42,14 @@ VALUES (9, 'How it is happened', 'We were friend but latter...',  5);
 INSERT INTO note (id, title, body, notebook_id)
 VALUES (10, 'Market', 'Buy mooooreee semki', 6);
 
-INSERT INTO mark (id, type) VALUES (1, 'MAIN');
-INSERT INTO mark (id, type) VALUES (2, 'STRANGE');
-INSERT INTO mark (id, type) VALUES (3, 'BAD');
-INSERT INTO mark (id, type) VALUES (4, 'LOL');
-INSERT INTO mark (id, type) VALUES (5, 'SIMPLE');
-INSERT INTO mark (id, type) VALUES (6, 'BORING');
-INSERT INTO mark (id, type) VALUES (7, 'USEFUL');
-INSERT INTO mark (id, type) VALUES (8, 'DREAM');
+INSERT INTO mark (id, type, user_id) VALUES (1, 'MAIN', 1);
+INSERT INTO mark (id, type, user_id) VALUES (2, 'STRANGE',4);
+INSERT INTO mark (id, type, user_id) VALUES (3, 'BAD', 7);
+INSERT INTO mark (id, type, user_id) VALUES (4, 'LOL', 6);
+INSERT INTO mark (id, type, user_id) VALUES (5, 'SIMPLE', 5);
+INSERT INTO mark (id, type, user_id) VALUES (6, 'BORING', 4);
+INSERT INTO mark (id, type, user_id) VALUES (7, 'USEFUL', 2);
+INSERT INTO mark (id, type, user_id) VALUES (8, 'DREAM', 3);
 
 INSERT INTO note_mark (MARK_ID, NOTE_ID) VALUES (1,2);
 INSERT INTO note_mark (MARK_ID, NOTE_ID) VALUES (6,8);

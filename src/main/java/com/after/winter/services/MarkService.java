@@ -8,14 +8,16 @@ import org.springframework.stereotype.Service;
 @Service
 public interface MarkService {
 
-  Mark getMark(Long id);
+  Mark getMarkByIdAndUserId(Long markId, Long userId);
 
-  Mark getMarkByType(String type);
+  List<Note> getNotesWithMarks(List<Mark> marks);
 
   Mark createMark(Mark mark);
 
   Mark updateMark(Mark mark);
 
   boolean deleteMark(Long markId);
+
+  List<Mark> getAllMarksByUserId(Long userId);
 
 }

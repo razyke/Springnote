@@ -10,17 +10,13 @@ import org.springframework.stereotype.Service;
 @Service
 public interface NoteService {
 
-  Note getNote(Long id);
-
-  Note getNoteByTitleAndNotebookId(String title, Long NotebookId);
+  Note getNoteByIdAndNotebookId(Long noteId, Long notebookId);
 
   Note createNote(Note note);
 
   Note updateNote(Note note);
 
   boolean deleteNote(Long noteId);
-
-  List<Note> getAllNotes();
 
   List<Note> getAllNotesByNotebook(Notebook notebook);
 

@@ -23,18 +23,9 @@ public class NoteServiceImpl implements NoteService {
   }
 
   @Override
-  public Note getNote(Long id) {
-    if (id != null && noteRepository.exists(id)) {
-      return noteRepository.getOne(id);
-    }
-    return null;
-  }
-
-
-  @Override
-  public Note getNoteByTitleAndNotebookId(String title, Long notebookId) {
-    if (title!= null && notebookId != null && !title.isEmpty()) {
-      return noteRepository.getByTitleAndAndNotebookId(title, notebookId);
+  public Note getNoteByIdAndNotebookId(Long noteId, Long notebookId) {
+    if (noteId != null && notebookId != null) {
+      return noteRepository.getByIdAndNotebookId(noteId, notebookId);
     }
     return null;
   }
@@ -67,11 +58,6 @@ public class NoteServiceImpl implements NoteService {
       return true;
     }
     return false;
-  }
-
-  @Override
-  public List<Note> getAllNotes() {
-    return noteRepository.findAll();
   }
 
   @Override

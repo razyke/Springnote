@@ -52,4 +52,9 @@ public class User implements Serializable{
   orphanRemoval = true)
   private List<Notebook> notebooks = new ArrayList<>();
 
+  @JsonIgnore
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL,
+  orphanRemoval = true)
+  private List<Mark> marks = new ArrayList<>();
+
 }
