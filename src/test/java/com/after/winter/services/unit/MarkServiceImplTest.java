@@ -39,7 +39,7 @@ public class MarkServiceImplTest {
                 .type(MARK_TYPE)
                 .build();
 
-        when(markRepository.exists(anyLong())).thenReturn(true);
+        when(markRepository.existsById(anyLong())).thenReturn(true);
     }
 /* //TODO: change test
     @Test
@@ -126,11 +126,11 @@ public class MarkServiceImplTest {
 
     @Test
     public void deleteMark_WhenIdIsNotNullAndExists() throws Exception {
-        doNothing().when(markRepository).delete(anyLong());
+        doNothing().when(markRepository).deleteById(anyLong());
         boolean deleted = markService.deleteMark(MARK_ID);
         assertThat(deleted).isTrue();
 
-        verify(markRepository).delete(anyLong());
+        verify(markRepository).deleteById(anyLong());
     }
 
     @Test
@@ -144,10 +144,10 @@ public class MarkServiceImplTest {
 
     @Test
     public void deleteMark_WhenMarkDoesntExists() throws Exception {
-        when(markRepository.exists(anyLong())).thenReturn(false);
+        when(markRepository.existsById(anyLong())).thenReturn(false);
         boolean deleted = markService.deleteMark(MARK_ID);
         assertThat(deleted).isFalse();
-        verify(markRepository).exists(anyLong());
+        verify(markRepository).existsById(anyLong());
     }
 
 }

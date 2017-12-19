@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class NoteServiceImpl implements NoteService {
 
   private final NoteRepository noteRepository;
@@ -20,6 +21,15 @@ public class NoteServiceImpl implements NoteService {
   @Autowired
   public NoteServiceImpl(NoteRepository noteRepository) {
     this.noteRepository = noteRepository;
+  }
+
+  @Override
+  public Note getNoteById(Long id) {
+    if (id != null) {
+      return noteRepository.getOne(id);
+    } else {
+      return null;
+    }
   }
 
   @Override
@@ -31,7 +41,6 @@ public class NoteServiceImpl implements NoteService {
   }
 
   @Override
-  @Transactional
   public Note createNote(Note note) {
     if (note != null && note.getNotebook() != null) {
       return noteRepository.saveAndFlush(note);
@@ -41,9 +50,8 @@ public class NoteServiceImpl implements NoteService {
   }
 
   @Override
-  @Transactional
   public Note updateNote(Note note) {
-    if (note != null && noteRepository.exists(note.getId())) {
+    if (note != null && noteRepository.existsById(note.getId())) {
       return noteRepository.saveAndFlush(note);
 
     }
@@ -51,10 +59,9 @@ public class NoteServiceImpl implements NoteService {
   }
 
   @Override
-  @Transactional
   public boolean deleteNote(Long noteId) {
-    if (noteId != null && noteRepository.exists(noteId)) {
-      noteRepository.delete(noteId);
+    if (noteId != null && noteRepository.existsById(noteId)) {
+      noteRepository.deleteById(noteId);
       return true;
     }
     return false;
@@ -70,7 +77,6 @@ public class NoteServiceImpl implements NoteService {
 
 
   @Override
-  @Transactional
   public boolean addMarkToNote(Mark mark, Note note) {
     if (mark != null && note != null && note.getNotebook() != null) {
       note.getMarks().add(mark);
@@ -81,7 +87,6 @@ public class NoteServiceImpl implements NoteService {
   }
 
   @Override
-  @Transactional
   public boolean removeMarkFromNote(Mark mark, Note note) {
     if (mark != null && note != null && note.getNotebook() != null) {
       note.getMarks().remove(mark);
@@ -92,7 +97,6 @@ public class NoteServiceImpl implements NoteService {
   }
 
   @Override
-  @Transactional
   public boolean removeAllMarksFromNote(Note note) {
     if (note != null && note.getNotebook() != null) {
       note.setMarks(new ArrayList<Mark>());

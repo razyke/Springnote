@@ -160,13 +160,17 @@ public class TestOnCrudOperations {
         .password("freckles")
         .email("wormholeking@epam.com")
         .build();
-    userService.createUser(user);
+
+    User createdUser = userService.createUser(user);
+
     Notebook notebook = Notebook.builder()
-        .user(userService.getUserByEmail("wormholeking@epam.com"))
+        .user(createdUser)
         .title("What in galaxy?")
         .description("New day become, new mystery born")
         .build();
+
     notebookService.createNotebook(notebook);
+
     Notebook notebook2 = Notebook.builder()
         .user(userService.getUserByEmail("wormholeking@epam.com"))
         .title("Boring things")
@@ -238,13 +242,11 @@ public class TestOnCrudOperations {
     Note note = userService.getUserByEmail("wormholeking@epam.com")
         .getNotebooks().get(1).getNotes().get(0);
 
-    Note things = noteService
-        .getNoteByIdAndNotebookId(note.getId(), note.getNotebook().getId());
 
     User forMark = userService.getUserByEmail("wormholeking@epam.com");
     Mark star = markService.getMarkByIdAndUserId(forMark.getMarks().get(0).getId(),forMark.getId());
 
-    noteService.addMarkToNote(star, things);
+    noteService.addMarkToNote(star, note);
 
     assertEquals("STAR",
         userService.getUserByEmail("wormholeking@epam.com").getNotebooks().get(1).getNotes().
@@ -257,6 +259,9 @@ public class TestOnCrudOperations {
         userForUnmark.getNotebooks().get(1).getNotes().get(0).getMarks().get(0),
         userForUnmark.getNotebooks().get(1).getNotes().get(0)
     );
+
+    User testUser = userService.getUser(userForUnmark.getId());
+    System.out.println(testUser.getId());
 
     assertEquals(Collections.emptyList(),
         userService.getUserByEmail("wormholeking@epam.com").getNotebooks().get(1)

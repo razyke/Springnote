@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class MarkServiceImpl implements MarkService {
 
   private final MarkRepository markRepository;
@@ -41,19 +42,16 @@ public class MarkServiceImpl implements MarkService {
   }
 
   @Override
-  @Transactional
   public Mark createMark(Mark mark) {
     if (mark != null && mark.getUser() != null) {
       return markRepository.saveAndFlush(mark);
-
     }
     return null;
   }
 
   @Override
-  @Transactional
   public Mark updateMark(Mark mark) {
-    if (mark != null && mark.getUser() != null && markRepository.exists(mark.getId())) {
+    if (mark != null && mark.getUser() != null && markRepository.existsById(mark.getId())) {
       return markRepository.saveAndFlush(mark);
     }
     return null;
@@ -61,11 +59,10 @@ public class MarkServiceImpl implements MarkService {
 
 
   @Override
-  @Transactional
   public boolean deleteMark(Long markId) {
-    if (markId != null && markRepository.exists(markId)) {
+    if (markId != null && markRepository.existsById(markId)) {
       //FIXME: Can't delete mark...
-      markRepository.delete(markId);
+      markRepository.deleteById(markId);
       return true;
     }
     return false;

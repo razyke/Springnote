@@ -52,7 +52,7 @@ public class NotebookServiceImplTest {
 
         notebooks.add(notebook);
 
-        when(notebookRepository.exists(anyLong())).thenReturn(true);
+        when(notebookRepository.existsById(anyLong())).thenReturn(true);
     }
 /* //TODO: Change test
     @Test
@@ -133,11 +133,11 @@ public class NotebookServiceImplTest {
 
     @Test
     public void updateNotebook_WhenNotebookDoesntExists() throws Exception {
-        when(notebookRepository.exists(anyLong())).thenReturn(false);
+        when(notebookRepository.existsById(anyLong())).thenReturn(false);
 
         Notebook returnedNotebook = notebookService.updateNotebook(notebook);
         assertThat(returnedNotebook).isNull();
-        verify(notebookRepository).exists(anyLong());
+        verify(notebookRepository).existsById(anyLong());
     }
 
     @Test
@@ -149,10 +149,10 @@ public class NotebookServiceImplTest {
 
     @Test
     public void deleteNotebook_WhenIdIsNotNullAndNotebookExists() throws Exception {
-        doNothing().when(notebookRepository).delete(anyLong());
+        doNothing().when(notebookRepository).deleteById(anyLong());
 
         notebookService.deleteNotebook(NOTEBOOK_ID);
-        verify(notebookRepository).delete(anyLong());
+        verify(notebookRepository).deleteById(anyLong());
     }
 
     @Test
@@ -163,10 +163,10 @@ public class NotebookServiceImplTest {
 
     @Test
     public void deleteNotebook_WhenNotebookDoesntExists() throws Exception {
-        when(notebookRepository.exists(anyLong())).thenReturn(false);
+        when(notebookRepository.existsById(anyLong())).thenReturn(false);
 
         notebookService.deleteNotebook(NOTEBOOK_ID);
-        verify(notebookRepository).exists(anyLong());
+        verify(notebookRepository).existsById(anyLong());
     }
 
     @Test
