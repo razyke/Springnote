@@ -41,8 +41,7 @@ public class MarkController {
 
   @RequestMapping(value = (USER_BY_ID + "/mark/{mark_id}"), method = RequestMethod.GET)
   @ResponseBody
-  public Mark getMarkByIdAndUserId(@PathVariable("id")Long userId, @PathVariable("mark_id")
-      Long markId) {
+  public Mark getMarkByIdAndUserId(@PathVariable("id")Long userId, @PathVariable("mark_id") Long markId) {
     return markService.getMarkByIdAndUserId(markId, userId);
   }
 

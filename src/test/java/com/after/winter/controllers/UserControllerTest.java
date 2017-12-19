@@ -59,6 +59,7 @@ public class UserControllerTest {
                 .firstname("Pok")
                 .lastname("PuK")
                 .notebooks(Collections.emptyList())
+                .marks(Collections.emptyList())
                 .build();
 
         user1 = User.builder()
@@ -66,6 +67,7 @@ public class UserControllerTest {
                 .firstname("bot")
                 .lastname("quake")
                 .notebooks(Collections.emptyList())
+                .marks(Collections.emptyList())
                 .build();
 
         list.add(user);
@@ -128,14 +130,14 @@ public class UserControllerTest {
                 .accept(MediaType.APPLICATION_JSON_UTF8);
 
         MvcResult result = mockMvc.perform(request)
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isOk())
                 .andReturn();
 
-//        String json = result
-//                .getResponse()
-//                .getContentAsString();
-//
-//        User returnedUser = objectMapper.readValue(json, typeFactory.constructType(User.class));
+        String json = result
+                .getResponse()
+                .getContentAsString();
+
+        assertThat(json).isNullOrEmpty();
         verify(userService, only()).getUser(anyLong());
     }
 
