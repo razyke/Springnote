@@ -5,7 +5,6 @@ import com.after.winter.model.Note;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
-@Service
 public interface MarkService {
 
   Mark getMarkByIdAndUserId(Long markId, Long userId);

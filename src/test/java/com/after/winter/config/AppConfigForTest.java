@@ -13,7 +13,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
-public class AppConfigForTest {
+public class AppConfigForTest extends AppConfig {
 
   @Bean
   public DataSource dataSource() throws SQLException {
