@@ -54,37 +54,20 @@ public class NotebookServiceImplTest {
 
         when(notebookRepository.existsById(anyLong())).thenReturn(true);
     }
-/* //TODO: Change test
-    @Test
-    public void getNotebook_WhenIdIsNotNull() throws Exception {
-        when(notebookRepository.findOne(anyLong())).thenReturn(notebook);
-        Notebook returnedNotebook = notebookService.getNotebook(NOTEBOOK_ID);
-
-        assertThat(returnedNotebook).isEqualTo(notebook);
-        verify(notebookRepository).findOne(anyLong());
-    }
-
-    @Test
-    public void getNotebook_WhenIdIsNull() throws Exception {
-        Notebook returnedNotebook = notebookService.getNotebook(null);
-
-        assertThat(returnedNotebook).isNull();
-        verifyZeroInteractions(notebookRepository);
-    }
 
     @Test
     public void getNotebookByTitleAndUserId_WhenBothAreNotNull() throws Exception {
-        when(notebookRepository.getByTitleAndUserId(anyString(), anyLong())).thenReturn(notebook);
+        when(notebookRepository.getByIdAndUserId(anyLong(), anyLong())).thenReturn(notebook);
 
-        Notebook returnedNotebook = notebookService.getNotebookByTitleAndUserId(NOTEBOOK_TITLE, USER_ID);
+        Notebook returnedNotebook = notebookService.getNotebookByIdAndUserId(NOTEBOOK_ID, USER_ID);
 
         assertThat(returnedNotebook).isEqualTo(notebook);
-        verify(notebookRepository).getByTitleAndUserId(anyString(), anyLong());
+        verify(notebookRepository).getByIdAndUserId(anyLong(), anyLong());
     }
 
     @Test
     public void getNotebookByTitleAndUserId_WhenNotebooTitleIsNull() throws Exception {
-        Notebook returnedNotebook = notebookService.getNotebookByTitleAndUserId(null, USER_ID);
+        Notebook returnedNotebook = notebookService.getNotebookByIdAndUserId(null, USER_ID);
 
         assertThat(returnedNotebook).isNull();
         verifyZeroInteractions(notebookRepository);
@@ -92,7 +75,7 @@ public class NotebookServiceImplTest {
 
     @Test
     public void getNotebookByTitleAndUserId_WhenUserIdIsNull() throws Exception {
-        Notebook returnedNotebook = notebookService.getNotebookByTitleAndUserId(NOTEBOOK_TITLE, null);
+        Notebook returnedNotebook = notebookService.getNotebookByIdAndUserId(NOTEBOOK_ID, null);
 
         assertThat(returnedNotebook).isNull();
         verifyZeroInteractions(notebookRepository);
@@ -100,11 +83,11 @@ public class NotebookServiceImplTest {
 
     @Test
     public void getNotebookByTitleAndUserId_WhenBothAreNull() throws Exception {
-        Notebook returnedNotebook = notebookService.getNotebookByTitleAndUserId(null, null);
+        Notebook returnedNotebook = notebookService.getNotebookByIdAndUserId(null, null);
 
         assertThat(returnedNotebook).isNull();
         verifyZeroInteractions(notebookRepository);
-    }*/
+    }
 
     @Test
     public void createNotebook_WhenNotebookIsNotNull() throws Exception {
