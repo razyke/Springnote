@@ -3,12 +3,14 @@ package com.after.winter.services;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.after.winter.config.AppConfigForTest;
 import com.after.winter.model.Mark;
 import com.after.winter.model.Note;
 import com.after.winter.model.Notebook;
 import com.after.winter.model.User;
 import java.util.Collections;
 import java.util.List;
+
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -61,73 +63,74 @@ public class TestOnCrudOperations {
         .password("batman777")
         .build();
 
-    User createdUser_1 = userService.createUser(user_1);
-    User createdUser_2 = userService.createUser(user_2);
+    userService.createUser(user_1);
+    userService.createUser(user_2);
 
     Notebook notebook_1 = Notebook.builder()
-        .user(createdUser_1)
+        .user(user_1)
         .title("How to get Happy")
         .description("Here is my plan, what should I do")
         .build();
 
     Notebook notebook_2 = Notebook.builder()
-        .user(createdUser_2)
+        .user(user_2)
         .title("How to kill Joker")
         .description("And don't get in jail")
         .build();
 
-    Notebook createdNotebook_1 = notebookService.createNotebook(notebook_1);
-    Notebook createdNotebook_2 = notebookService.createNotebook(notebook_2);
+    notebookService.createNotebook(notebook_1);
+    notebookService.createNotebook(notebook_2);
 
     Note note_1 = Note.builder()
-        .notebook(createdNotebook_1)
+        .notebook(notebook_1)
         .title("I need to forgive my self")
         .body("I know all we make mistakes, but i murdered human"
             + " how can i live with this burden ...")
         .build();
 
     Note note_2 = Note.builder()
-        .notebook(createdNotebook_2)
+        .notebook(notebook_2)
         .title("I know that i'm hero")
         .body("Good and Evil always fight in infinity wars, my"
             + " foe a man, that killed my family, how can i forgive him ...")
         .build();
 
-    Note createdNote_1 = noteService.createNote(note_1);
-    Note createdNote_2 = noteService.createNote(note_2);
+    noteService.createNote(note_1);
+    noteService.createNote(note_2);
 
     Mark mark_1 = Mark.builder()
         .type("MAIN")
-        .user(createdUser_1)
         .build();
 
     Mark mark_2 = Mark.builder()
         .type("BAT")
-        .user(createdUser_2)
         .build();
 
-    Mark createdMark1 = markService.createMark(mark_1);
-    Mark createdMark2 = markService.createMark(mark_2);
+    markService.createMark(mark_1);
+    markService.createMark(mark_2);
 
-    Note note_mark_1 = noteService.getNoteByIdAndNotebookId(createdNote_1.getId(),
-        createdNotebook_1.getId());
+    Note note_mark_1 = noteService.getNoteByTitleAndNotebookId("I need to forgive my self",
+        notebookService.getNotebookByTitleAndUserId("How to get Happy",
+            userService.getUserByEmail("fbrox@epam.com").getId()).getId());
 
-    Note note_mark_2 = noteService.getNoteByIdAndNotebookId(createdNote_2.getId(),
-        createdNotebook_2.getId());
+    Note note_mark_2 = noteService.getNoteByTitleAndNotebookId(
+        "I know that i'm hero",
+        notebookService.getNotebookByTitleAndUserId(
+            "How to kill Joker",
+            userService.getUserByEmail("jockerdead@epam.com").getId()).getId());
+
 
     noteService.addMarkToNote(
-        createdMark1,
+        markService.getMarkByType("MAIN"),
         note_mark_1);
 
     noteService.addMarkToNote(
-        createdMark2,
+        markService.getMarkByType("BAT"),
         note_mark_2);
-
   }
 
   @Test
   public void A2_getUsers() throws Exception {
-
     List<User> allUsers = userService.getAllUsers();
     assertEquals(2, allUsers.size());
   }
@@ -148,7 +151,7 @@ public class TestOnCrudOperations {
   @Test
   public void A5_getAllNotesWithMark() throws Exception {
     User user = userService.getUserByEmail("jockerdead@epam.com");
-    Mark mark = markService.getMarkByIdAndUserId(user.getMarks().get(0).getId(), user.getId());
+    Mark mark = markService.getMarkByType("BAT");
     assertEquals("I know that i'm hero", mark.getNotes().get(0).getTitle());
   }
 
@@ -186,18 +189,15 @@ public class TestOnCrudOperations {
 
   @Test
   public void A7_add2NotesChange1NoteDelete2DeleteAndCheckUser() {
-    User user = userService.getUserByEmail("wormholeking@epam.com");
-
-    Notebook notebook777 = notebookService.getNotebookByIdAndUserId(
-        user.getNotebooks().get(1).getId(),user.getId());
-
+    Notebook notebook777 = notebookService.getNotebookByTitleAndUserId("Boring things",
+        userService.getUserByEmail("wormholeking@epam.com").getId());
     Note note = Note.builder()
         .notebook(notebook777)
         .title("First magazine")
         .body("Buy chicken and sugar")
         .build();
 
-    Note createdNote1 = noteService.createNote(note);
+    noteService.createNote(note);
 
     Note note2 = Note.builder()
         .notebook(notebook777)
@@ -210,13 +210,10 @@ public class TestOnCrudOperations {
         .getUserByEmail("wormholeking@epam.com").getNotebooks().get(1).getNotes().get(0)
         .getBody());
 
-    Note changedNote = noteService.getNoteByIdAndNotebookId(
-        createdNote1.getId(),createdNote1.getNotebook().getId());
-
+    Note changedNote = noteService.getNoteByTitleAndNotebookId("First magazine",
+        userService.getUserByEmail("wormholeking@epam.com").getNotebooks().get(1).getId());
     changedNote.setBody("Buy a gun");
-
     noteService.updateNote(changedNote);
-
     assertEquals("Buy a gun", userService
         .getUserByEmail("wormholeking@epam.com").getNotebooks().get(1).getNotes().get(0)
         .getBody());
@@ -230,19 +227,14 @@ public class TestOnCrudOperations {
 
     Mark mark = Mark.builder()
         .type("STAR")
-        .user(user)
         .build();
 
     markService.createMark(mark);
 
-    Note note = userService.getUserByEmail("wormholeking@epam.com")
-        .getNotebooks().get(1).getNotes().get(0);
-
     Note things = noteService
-        .getNoteByIdAndNotebookId(note.getId(), note.getNotebook().getId());
+        .getNoteByTitleAndNotebookId("First magazine", user.getNotebooks().get(1).getId());
 
-    User forMark = userService.getUserByEmail("wormholeking@epam.com");
-    Mark star = markService.getMarkByIdAndUserId(forMark.getMarks().get(0).getId(),forMark.getId());
+    Mark star = markService.getMarkByType("STAR");
 
     noteService.addMarkToNote(star, things);
 
@@ -261,6 +253,10 @@ public class TestOnCrudOperations {
     assertEquals(Collections.emptyList(),
         userService.getUserByEmail("wormholeking@epam.com").getNotebooks().get(1)
         .getNotes().get(0).getMarks());
+
+    List<User> allUsers = userService.getAllUsers();
+    System.out.println(allUsers.size());
+
 
     userService.deleteUser(userService.getUserByEmail("wormholeking@epam.com").getId());
     if (userService.getUserByEmail("wormholeking@epam.com") == null) {
