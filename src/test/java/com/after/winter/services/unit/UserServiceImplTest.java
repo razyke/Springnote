@@ -85,13 +85,13 @@ public class UserServiceImplTest {
     }*/
 
 
-    @Test
+/*    @Test
     public void getUserWhenUserDoesntExists() throws Exception {
         when(userRepository.findById(anyLong())).thenReturn(null);
         User returnedUser = userService.getUser(USER_ID);
         assertThat(returnedUser).isNull();
         verify(userRepository, times(1)).findById(anyLong());
-    }
+    }*/
 
 
     @Test
