@@ -78,58 +78,34 @@ public class NoteServiceImplTest {
         when(noteRepository.exists(anyLong())).thenReturn(true);
     }
 
-    //TODO: change tests
- /*   @Test
-    public void getNote_WhenNoteExists() throws Exception {
-        when(noteRepository.getOne(anyLong())).thenReturn(note);
-        Note returnedNote = noteService.getNote(ID);
+    @Test
+    public void getNoteByIdAndNotebookId_WhenBothExists() throws Exception {
+        when(noteRepository.getByIdAndNotebookId(anyLong(), anyLong())).thenReturn(note);
+        Note returnedNote = noteService.getNoteByIdAndNotebookId(ID, NOTEBOOK_ID);
         assertThat(returnedNote).isEqualTo(note);
-        verify(noteRepository).getOne(anyLong());
+        verify(noteRepository, only()).getByIdAndNotebookId(anyLong(), anyLong());
     }
 
     @Test
-    public void getNote_WhenNoteDoesntExists() throws Exception {
-        when(noteRepository.exists(anyLong())).thenReturn(false);
-        Note returnedNote = noteService.getNote(ID);
-        assertThat(returnedNote).isNull();
-        verify(noteRepository).exists(anyLong());
-    }
-
-    @Test
-    public void getNote_WhenIdIsNull() throws Exception {
-        Note returnedNote = noteService.getNote(null);
-        assertThat(returnedNote).isNull();
-        verifyZeroInteractions(noteRepository);
-    }
-
-    @Test
-    public void getNoteByTitleAndNotebookId_WhenBothExists() throws Exception {
-        when(noteRepository.getByTitleAndAndNotebookId(anyString(), anyLong())).thenReturn(note);
-        Note returnedNote = noteService.getNoteByTitleAndNotebookId(NOTE_TITLE, NOTEBOOK_ID);
-        assertThat(returnedNote).isEqualTo(note);
-        verify(noteRepository, only()).getByTitleAndAndNotebookId(anyString(), anyLong());
-    }
-
-    @Test
-    public void getNoteByTitleAndNotebookId_WhenTitleIsNull() throws Exception {
-        Note returnedNote = noteService.getNoteByTitleAndNotebookId(null, NOTEBOOK_ID);
+    public void getNoteByTitleAndNotebookId_WhenIdIsNull() throws Exception {
+        Note returnedNote = noteService.getNoteByIdAndNotebookId(null, NOTEBOOK_ID);
         assertThat(returnedNote).isNull();
         verifyZeroInteractions(noteRepository);
     }
 
     @Test
     public void getNoteByTitleAndNotebookId_WhenNotebookIdIsNull() throws Exception {
-        Note returnedNote = noteService.getNoteByTitleAndNotebookId(NOTE_TITLE, null);
+        Note returnedNote = noteService.getNoteByIdAndNotebookId(ID, null);
         assertThat(returnedNote).isNull();
         verifyZeroInteractions(noteRepository);
     }
 
     @Test
     public void getNoteByTitleAndNotebookId_WhenBothAreNull() throws Exception {
-        Note returnedNote = noteService.getNoteByTitleAndNotebookId(null, null);
+        Note returnedNote = noteService.getNoteByIdAndNotebookId(null, null);
         assertThat(returnedNote).isNull();
         verifyZeroInteractions(noteRepository);
-    }*/
+    }
 
     @Test
     public void createNote_WhenNoteIsNotNull() throws Exception {
