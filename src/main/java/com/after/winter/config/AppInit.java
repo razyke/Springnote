@@ -1,6 +1,5 @@
 package com.after.winter.config;
 
-import com.after.winter.config.WebConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;

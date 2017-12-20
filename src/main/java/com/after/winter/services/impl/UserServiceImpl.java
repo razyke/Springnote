@@ -1,5 +1,6 @@
 package com.after.winter.services.impl;
 
+import com.after.winter.aop.LogTimeOfExecute;
 import com.after.winter.model.User;
 import com.after.winter.repository.UserRepository;
 import com.after.winter.services.UserService;
@@ -20,6 +21,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  @LogTimeOfExecute
   public User getUserByEmail(String email) {
     if (email != null && !email.isEmpty()) {
       return userRepository.getUserByEmail(email);
@@ -28,6 +30,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  @LogTimeOfExecute
   public User getUser(Long id) {
     if (id != null) {
       return userRepository.findById(id).get();
@@ -36,6 +39,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  @LogTimeOfExecute
   public User createUser(User user) {
     if (user != null) {
       return userRepository.saveAndFlush(user);
@@ -44,6 +48,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  @LogTimeOfExecute
   public User updateUser(User user) {
     if (user != null && userRepository.existsById(user.getId())) {
        return userRepository.saveAndFlush(user);
@@ -52,6 +57,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  @LogTimeOfExecute
   public boolean deleteUser(Long userId) {
     if (userId != null && userRepository.existsById(userId)) {
       userRepository.deleteById(userId);
@@ -61,6 +67,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  @LogTimeOfExecute
   public List<User> getAllUsers() {
     return userRepository.findAll();
   }
