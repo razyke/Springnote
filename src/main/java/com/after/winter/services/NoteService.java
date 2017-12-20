@@ -7,7 +7,6 @@ import com.after.winter.model.User;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
-@Service
 public interface NoteService {
 
   Note getNoteById(Long id);

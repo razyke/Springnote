@@ -4,7 +4,6 @@ import com.after.winter.model.Notebook;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
-@Service
 public interface NotebookService {
 
   Notebook getNotebookByIdAndUserId(Long notebookId, Long userId);

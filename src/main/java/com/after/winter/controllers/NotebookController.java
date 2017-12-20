@@ -72,8 +72,7 @@ public class NotebookController {
   @ResponseBody
   public String deleteNotebook(@PathVariable("id") Long userId,
       @PathVariable("notebook_id") Long notebookId) {
-    Notebook check = notebookService
-        .getNotebookByIdAndUserId(notebookId, userId);
+    Notebook check = notebookService.getNotebookByIdAndUserId(notebookId, userId);
     if (check != null) {
       if (notebookService.deleteNotebook(notebookId)) {
         return "Notebook has been deleted";
