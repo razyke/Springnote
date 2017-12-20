@@ -33,6 +33,7 @@ REST API (Simple CRUD operations)
 | /marks             | GET         | All marks by user    |
 | /mark              | POST, PUT   | Create or update     |
 | /mark/{id}         | GET, DELETE | Get by id, or delete |
+|                    |             |                      |
 </br>
 REST API (functional operations)
 </br>
@@ -40,5 +41,6 @@ REST API (functional operations)
 | --------------------------------------------------- |:-------:| ---------------------:|
 | /user/{id}/mark/{id}/notebook/{id}/note/{id}/set    | GET     | Set mark on note      |
 | /user/{id}/mark/{id}/notebook/{id}/note/{id}/remove | GET     | Remove mark from note |
+|                                                     |         |                       |
 
 
