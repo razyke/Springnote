@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 public interface NoteService {
 
+  Note getNoteById(Long id);
+
   Note getNoteByIdAndNotebookId(Long noteId, Long notebookId);
 
   Note createNote(Note note);

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
   private final UserRepository userRepository;
@@ -29,13 +30,12 @@ public class UserServiceImpl implements UserService {
   @Override
   public User getUser(Long id) {
     if (id != null) {
-      return userRepository.findOne(id);
+      return userRepository.findById(id).get();
     }
     return null;
   }
 
   @Override
-  @Transactional
   public User createUser(User user) {
     if (user != null) {
       return userRepository.saveAndFlush(user);
@@ -44,19 +44,17 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  @Transactional
   public User updateUser(User user) {
-    if (user != null && userRepository.exists(user.getId())) {
+    if (user != null && userRepository.existsById(user.getId())) {
        return userRepository.saveAndFlush(user);
     }
     return null;
   }
 
   @Override
-  @Transactional
   public boolean deleteUser(Long userId) {
-    if (userId != null && userRepository.exists(userId)) {
-      userRepository.delete(userId);
+    if (userId != null && userRepository.existsById(userId)) {
+      userRepository.deleteById(userId);
       return true;
     }
     return false;

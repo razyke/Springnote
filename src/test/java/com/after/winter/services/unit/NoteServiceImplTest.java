@@ -75,7 +75,7 @@ public class NoteServiceImplTest {
 
         notebook.setNotes(notes);
 
-        when(noteRepository.exists(anyLong())).thenReturn(true);
+        when(noteRepository.existsById(anyLong())).thenReturn(true);
     }
 
     @Test
@@ -130,19 +130,19 @@ public class NoteServiceImplTest {
 
         assertThat(returnedNote).isEqualTo(note);
 
-        verify(noteRepository).exists(anyLong());
+        verify(noteRepository).existsById(anyLong());
         verify(noteRepository).saveAndFlush(any(Note.class));
     }
 
     @Test
     public void updateNote_WhenNoteDoesntExists() throws Exception {
-        when(noteRepository.exists(anyLong())).thenReturn(false);;
+        when(noteRepository.existsById(anyLong())).thenReturn(false);;
 
         Note returnedNote = noteService.updateNote(note);
 
         assertThat(returnedNote).isNull();
 
-        verify(noteRepository).exists(anyLong());
+        verify(noteRepository).existsById(anyLong());
     }
 
     @Test
@@ -155,20 +155,20 @@ public class NoteServiceImplTest {
 
     @Test
     public void deleteNote_WhenNoteExists() throws Exception {
-        doNothing().when(noteRepository).delete(anyLong());
+        doNothing().when(noteRepository).deleteById(anyLong());
         boolean deleted = noteService.deleteNote(ID);
 
         assertThat(deleted).isTrue();
-        verify(noteRepository).delete(anyLong());
+        verify(noteRepository).deleteById(anyLong());
     }
 
     @Test
     public void deleteNote_WhenNoteDoesntExists() throws Exception {
-        when(noteRepository.exists(anyLong())).thenReturn(false);
+        when(noteRepository.existsById(anyLong())).thenReturn(false);
         boolean deleted = noteService.deleteNote(ID);
 
         assertThat(deleted).isFalse();
-        verify(noteRepository).exists(anyLong());
+        verify(noteRepository).existsById(anyLong());
     }
 
     @Test
@@ -191,7 +191,7 @@ public class NoteServiceImplTest {
     @Test
     public void getAllNotesByNotebook_WhenNotebookExists() throws Exception {
         when(noteRepository.getAllByNotebook(any(Notebook.class))).thenReturn(notes);
-        when(notebookRepository.exists(anyLong())).thenReturn(true);
+        when(notebookRepository.existsById(anyLong())).thenReturn(true);
 
         List<Note> returnedNotes = noteService.getAllNotesByNotebook(notebook);
         assertThat(returnedNotes).isNotEmpty().contains(note).isEqualTo(notes);

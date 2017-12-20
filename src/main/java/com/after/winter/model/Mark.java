@@ -16,8 +16,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
@@ -25,7 +29,7 @@ import lombok.*;
 @Builder
 @Entity
 @Table
-@EqualsAndHashCode(exclude = {"user", "notes"})
+@EqualsAndHashCode(of = "id")
 @ToString(exclude = {"notes", "user"})
 //InitalValue using 9, cos we use insert.sql and last id - 8.
 @SequenceGenerator(

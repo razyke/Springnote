@@ -15,7 +15,7 @@ public interface MarkService {
 
   Mark updateMark(Mark mark);
 
-  boolean deleteMark(Long markId);
+  boolean deleteMark(Mark mark);
 
   List<Mark> getAllMarksByUserId(Long userId);
 
