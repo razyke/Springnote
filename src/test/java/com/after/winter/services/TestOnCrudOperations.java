@@ -3,6 +3,7 @@ package com.after.winter.services;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.after.winter.config.AppConfigForTest;
 import com.after.winter.model.Mark;
 import com.after.winter.model.Note;
 import com.after.winter.model.Notebook;

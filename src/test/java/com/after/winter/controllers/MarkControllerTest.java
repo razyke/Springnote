@@ -77,6 +77,7 @@ public class MarkControllerTest {
 
         user = User.builder()
                 .id(ID)
+                .marks(marks)
                 .build();
 
         mark = Mark.builder()
@@ -199,9 +200,10 @@ public class MarkControllerTest {
 
     @Test
     public void deleteMark() throws Exception {
+
         when(userService.getUser(anyLong())).thenReturn(user);
-        when(markService.getMarkByIdAndUserId(anyLong(), anyLong()));
-        when(markService.deleteMark(anyLong())).thenReturn(true);
+        when(markService.getMarkByIdAndUserId(anyLong(), anyLong())).thenReturn(mark);
+        when(markService.deleteMark(any(Mark.class))).thenReturn(true);
 
         RequestBuilder request = MockMvcRequestBuilders.delete(USER_BY_ID + "/mark/{mark_id}", ID, ID)
                 .accept(MediaType.APPLICATION_JSON_UTF8);
@@ -217,7 +219,7 @@ public class MarkControllerTest {
 
         assertThat(response).isNotEmpty().isEqualTo("Mark has been deleted");
 
-        verify(markService).deleteMark(anyLong());
+        verify(markService).deleteMark(any(Mark.class));
         verify(markService).getMarkByIdAndUserId(anyLong(), anyLong());
         verify(userService).getUser(anyLong());
         verifyNoMoreInteractions(userService);

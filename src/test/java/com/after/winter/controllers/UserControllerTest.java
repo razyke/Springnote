@@ -1,6 +1,8 @@
 package com.after.winter.controllers;
 
+import com.after.winter.config.AppConfig;
 import com.after.winter.config.AppConfigForTest;
+import com.after.winter.config.WebConfig;
 import com.after.winter.config.WebConfigForTests;
 import com.after.winter.model.User;
 import com.after.winter.services.UserService;
@@ -35,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {AppConfigForTest.class, WebConfigForTests.class})
+@ContextConfiguration(classes = {AppConfig.class, WebConfig.class})
 @WebAppConfiguration
 public class UserControllerTest {
     private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -58,16 +60,12 @@ public class UserControllerTest {
                 .id(1L)
                 .firstname("Pok")
                 .lastname("PuK")
-                .notebooks(Collections.emptyList())
-                .marks(Collections.emptyList())
                 .build();
 
         user1 = User.builder()
                 .id(2L)
                 .firstname("bot")
                 .lastname("quake")
-                .notebooks(Collections.emptyList())
-                .marks(Collections.emptyList())
                 .build();
 
         list.add(user);
