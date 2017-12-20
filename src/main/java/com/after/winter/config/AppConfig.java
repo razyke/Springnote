@@ -20,6 +20,11 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 
 @Configuration
@@ -28,6 +33,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
     "com.after.winter.repository",})
 @EnableJpaRepositories("com.after.winter.repository")
 @EnableTransactionManagement
+@EnableSwagger2
 //@PropertySource("classpath:db.properties")
 public class AppConfig {
 
@@ -78,5 +84,14 @@ public class AppConfig {
   @Bean
   public JpaTransactionManager transactionManager(EntityManagerFactory emf) {
     return new JpaTransactionManager(emf);
+  }
+
+  @Bean
+  public Docket api() {
+    return new Docket(DocumentationType.SWAGGER_2)
+            .select()
+            .apis(RequestHandlerSelectors.any())
+            .paths(PathSelectors.any())
+            .build();
   }
 }
