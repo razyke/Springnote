@@ -103,7 +103,6 @@ public class MarkController {
   @ResponseBody
   public String removeMarkFromNote(@PathVariable("id")Long userId, @PathVariable("mark_id")Long markId,
       @PathVariable("note_id")Long noteId, @PathVariable("notebook_id")Long notebookId) {
-    //TODO: not work =(
     Mark mark = markService.getMarkByIdAndUserId(markId, userId);
     Note note = noteService.getNoteByIdAndNotebookId(noteId, notebookId);
     if (noteService.removeMarkFromNote(mark, note)) {

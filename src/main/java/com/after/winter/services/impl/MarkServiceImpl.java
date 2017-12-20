@@ -61,10 +61,7 @@ public class MarkServiceImpl implements MarkService {
   @Override
   public boolean deleteMark(Mark mark) {
     if (mark != null && markRepository.existsById(mark.getId())) {
-      //FIXME: Can't delete mark...
       markRepository.delete(mark);
-
-      //markRepository.deleteById(markId);
       return true;
     }
     return false;
