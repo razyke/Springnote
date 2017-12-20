@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
@@ -76,23 +77,13 @@ public class UserServiceImplTest {
 
     }
 
- /*   @Test
+   @Test
     public void getUserWhenUserExists() throws Exception {
-        when(userRepository.findById(anyLong())).thenReturn(user);
-        User returnedUser = userService.getUser(USER_ID);
-        assertThat(returnedUser).isEqualTo(user);
-        verify(userRepository, times(1)).findById(anyLong());
-    }*/
-
-
-/*    @Test
-    public void getUserWhenUserDoesntExists() throws Exception {
-        when(userRepository.findById(anyLong())).thenReturn(null);
-        User returnedUser = userService.getUser(USER_ID);
-        assertThat(returnedUser).isNull();
-        verify(userRepository, times(1)).findById(anyLong());
-    }*/
-
+       when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
+       User returnedUser = userService.getUser(USER_ID);
+       assertThat(returnedUser).isEqualTo(user);
+       verify(userRepository, times(1)).findById(anyLong());
+   }
 
     @Test
     public void getUserWhenIdIsNull() throws Exception {

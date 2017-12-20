@@ -179,15 +179,6 @@ public class NoteServiceImplTest {
         verifyZeroInteractions(noteRepository);
     }
 
-    //TODO: and here too
-/*    @Test
-    public void getAllNotes() throws Exception {
-        when(noteRepository.findAll()).thenReturn(notes);
-        List<Note> returnedNotes = noteService.getAllNotes();
-        assertThat(returnedNotes).isNotEmpty().contains(note).isEqualTo(notes);
-        verify(noteRepository).findAll();
-    }*/
-
     @Test
     public void getAllNotesByNotebook_WhenNotebookExists() throws Exception {
         when(noteRepository.getAllByNotebook(any(Notebook.class))).thenReturn(notes);

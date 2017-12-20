@@ -1,6 +1,7 @@
 package com.after.winter.services.unit;
 
 import com.after.winter.model.Mark;
+import com.after.winter.model.User;
 import com.after.winter.repository.MarkRepository;
 import com.after.winter.services.impl.MarkServiceImpl;
 import org.assertj.core.api.Assertions;
@@ -37,57 +38,35 @@ public class MarkServiceImplTest {
         mark = Mark.builder()
                 .id(MARK_ID)
                 .type(MARK_TYPE)
+                .user(new User())
                 .build();
 
         when(markRepository.existsById(anyLong())).thenReturn(true);
     }
-/* //TODO: change test
+
     @Test
-    public void getMark_WhenIdNotNullAndMarkExists() throws Exception {
-        when(markRepository.getOne(anyLong())).thenReturn(mark);
-        Mark returnedMark = markService.getMark(MARK_ID);
+    public void getMarkByIdAndUseId_WhenIdNotNullAndMarkExists() throws Exception {
+        when(markRepository.getByIdAndUserId(anyLong(), anyLong())).thenReturn(mark);
+        Mark returnedMark = markService.getMarkByIdAndUserId(MARK_ID, MARK_ID);
         assertThat(returnedMark).isEqualTo(mark);
-        verify(markRepository).getOne(anyLong());
+        verify(markRepository).getByIdAndUserId(anyLong(), anyLong());
     }
 
     @Test
-    public void getMark_WhenIdIsNull() throws Exception {
-        Mark returnedMark = markService.getMark(null);
+    public void getMarkByIdAndUseId_WhenIdIsNull() throws Exception {
+        Mark returnedMark = markService.getMarkByIdAndUserId(null, null);
         assertThat(returnedMark).isNull();
         verifyZeroInteractions(markRepository);
     }
 
-    @Test
-    public void getMark_WhenMarkDoesntExsists() throws Exception {
-        when(markRepository.exists(anyLong())).thenReturn(false);
-        Mark returnedMark = markService.getMark(MARK_ID);
-        assertThat(returnedMark).isNull();
-        verify(markRepository).exists(anyLong());
-    }
-
-    @Test
-    public void getMarkByType_WhenTypeIsNotNull() throws Exception {
-        when(markRepository.getByType(anyString())).thenReturn(mark);
-        Mark returnedMark = markService.getMarkByType(MARK_TYPE);
-        assertThat(returnedMark).isEqualTo(mark);
-        verify(markRepository).getByType(anyString());
-    }
-
-    @Test
-    public void getMarkByType_WhenTypeIsNull() throws Exception {
-        Mark returnedMark = markService.getMarkByType(null);
-        assertThat(returnedMark).isNull();
-        verifyZeroInteractions(markRepository);
-    }*/
-
-  /*  @Test
+   @Test
     public void createMark_WhenMarkIsNotNull() throws Exception {
         when(markRepository.saveAndFlush(any(Mark.class))).thenReturn(mark);
         Mark returnedMark = markService.createMark(this.mark);
 
         assertThat(returnedMark).isEqualTo(mark);
         verify(markRepository).saveAndFlush(any(Mark.class));
-    }*/
+    }
 
     @Test
     public void createMark_WhenMarkIsNull() throws Exception {
@@ -97,14 +76,14 @@ public class MarkServiceImplTest {
         verifyZeroInteractions(markRepository);
     }
 
- /*   @Test
+    @Test
     public void updateMark_WhenMarkIsNotNullAndExists() throws Exception {
         when(markRepository.saveAndFlush(any(Mark.class))).thenReturn(mark);
         Mark returnedMark = markService.updateMark(mark);
 
         assertThat(returnedMark).isEqualTo(mark);
         verify(markRepository).saveAndFlush(any(Mark.class));
-    }*/
+    }
 
     @Test
     public void updateMark_WhenMarkIsNull() throws Exception {
@@ -114,24 +93,23 @@ public class MarkServiceImplTest {
         verifyZeroInteractions(markRepository);
     }
 
-    //TODO: and here
- /*   @Test
+    @Test
     public void updateMark_WhenMarkDoesntExists() throws Exception {
-        when(markRepository.exists(anyLong())).thenReturn(false);
+        when(markRepository.existsById(anyLong())).thenReturn(false);
         Mark returnedMark = markService.updateMark(mark);
 
         assertThat(returnedMark).isNull();
-        verify(markRepository).exists(anyLong());
-    }*/
+        verify(markRepository).existsById(anyLong());
+    }
 
-/*    @Test
+    @Test
     public void deleteMark_WhenIdIsNotNullAndExists() throws Exception {
-        doNothing().when(markRepository).deleteById(anyLong());
-        boolean deleted = markService.deleteMark(MARK_ID);
+        doNothing().when(markRepository).delete(any(Mark.class));
+        boolean deleted = markService.deleteMark(mark);
         assertThat(deleted).isTrue();
 
-        verify(markRepository).deleteById(anyLong());
-    }*/
+        verify(markRepository).delete(any(Mark.class));
+    }
 
     @Test
     public void deleteMark_WhenIdIsNull() throws Exception {
@@ -142,12 +120,12 @@ public class MarkServiceImplTest {
         verifyZeroInteractions(markRepository);
     }
 
-/*    @Test
+    @Test
     public void deleteMark_WhenMarkDoesntExists() throws Exception {
         when(markRepository.existsById(anyLong())).thenReturn(false);
-        boolean deleted = markService.deleteMark(MARK_ID);
+        boolean deleted = markService.deleteMark(mark);
         assertThat(deleted).isFalse();
         verify(markRepository).existsById(anyLong());
-    }*/
+    }
 
 }
