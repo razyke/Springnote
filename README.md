@@ -4,10 +4,6 @@
 
 Spring application</br>
 
-Scheme of DB.
-![alt text](src/main/resources/SchemeDB.jpg)
-</br>
-</br>
 </br>
 REST API (Simple CRUD operations)
 </br>
