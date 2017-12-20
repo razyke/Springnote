@@ -2,6 +2,8 @@
 
 ## CRUD and functional operations.
 
+For swagger use - localhost***/swagger-ui.html
+
 | URL for api        | Methods     | Description          |
 | ----------------------------------------------- |:-----------:| --------------------:|
 | /users             | GET         | Get all users        |

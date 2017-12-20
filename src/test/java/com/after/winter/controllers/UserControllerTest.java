@@ -1,9 +1,7 @@
 package com.after.winter.controllers;
 
 import com.after.winter.config.AppConfig;
-import com.after.winter.config.AppConfigForTest;
 import com.after.winter.config.WebConfig;
-import com.after.winter.config.WebConfigForTests;
 import com.after.winter.model.User;
 import com.after.winter.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,7 +23,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
