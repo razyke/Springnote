@@ -260,8 +260,6 @@ public class TestOnCrudOperations {
         userForUnmark.getNotebooks().get(1).getNotes().get(0)
     );
 
-    User testUser = userService.getUser(userForUnmark.getId());
-    System.out.println(testUser.getId());
 
     assertEquals(Collections.emptyList(),
         userService.getUserByEmail("wormholeking@epam.com").getNotebooks().get(1)

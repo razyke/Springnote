@@ -76,10 +76,10 @@ public class MarkController {
   public String deleteMark(@PathVariable("id")Long userId, @PathVariable("mark_id")Long markId) {
     User user = userService.getUser(userId);
     Mark mark = markService.getMarkByIdAndUserId(markId, user.getId());
-    if (user.getMarks().contains(mark))
-    if (markService.deleteMark(markId)) {
-      return "Mark has been deleted";
-      //TODO: it's not work for now
+    if (user.getMarks().contains(mark)) {
+      if (markService.deleteMark(mark)) {
+        return "Mark has been deleted";
+      }
     }
     return "Failed to delete";
   }
